@@ -3,46 +3,46 @@
 {% block body %}
     <h1>Products list</h1>
     <div align="center">
-    <div style="max-width: 1024px;">
-    <table class="table-bordered">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th width="300px">Description</th>
-                <th width="100px">Price</th>
-                <th>Quantity</th>
-                <th>Visibility</th>
-                <th width="80px">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td><a href="{{ path('edit_product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
-                <td>{{ product.title }}</td>
-                <td>{{ product.description }}</td>
-                <td align="center">${{ product.price }}</td>
-                <td align="center">{{ product.quantity }}</td>
-                <td align="center">{{ product.isVisible }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('edit_product_show', { 'id': product.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('edit_product_edit', { 'id': product.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div style="max-width: 1024px;">
+            <table class="table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th width="300px">Description</th>
+                    <th width="100px">Price</th>
+                    <th>Quantity</th>
+                    <th>Visibility</th>
+                    <th width="80px">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td><a href="{{ path('edit_product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
+                        <td>{{ product.title }}</td>
+                        <td>{{ product.description }}</td>
+                        <td align="center">${{ product.price }}</td>
+                        <td align="center">{{ product.quantity }}</td>
+                        <td align="center">{{ product.isVisible }}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('edit_product_show', { 'id': product.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('edit_product_edit', { 'id': product.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-    <ul>
-            <h2><a href="{{ path('edit_product_new') }}">Create a new product</a></h2>
-    </ul>
-    </div>
+            <ul>
+                <h2><a href="{{ path('edit_product_new') }}">Create a new product</a></h2>
+            </ul>
+        </div>
     </div>
 {% endblock %}

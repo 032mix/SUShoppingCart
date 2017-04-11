@@ -17,7 +17,8 @@
                 <div class="col-sm-4">
                     <a href="{{ path('mix_s_product_display', {id: product.id}) }}">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"><h4>{{ product.title|slice(0,20) }}</h4></div>
+                            <div class="panel-heading">
+                                <h4>{{ product.productcategory.name }} {{ product.title|slice(0,20) }}</h4></div>
                             <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE"
                                                          class="img-responsive" style="width:100%" alt="Image"></div>
                             <div class="panel-footer" align="center"><h4>${{ product.price }}</h4></div>
@@ -27,11 +28,13 @@
             {% endfor %}
         </div>
     </div>
-    <div align="center">
-        <ul class="pagination">
-            {% for key in pages %}
-                <li><a href="{{ path('mix_s_homepage', {page: key}) }}">{{ key }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+    {% if pages >= 1 %}
+        <div align="center">
+            <ul class="pagination">
+                {% for key in pages %}
+                    <li><a href="{{ path('mix_s_homepage', {page: key}) }}">{{ key }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}
