@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Welcome!{% endblock %}
+{% block nav %}{% endblock %}
+{% block body %}
+    <a href=""><p id="logo">MShop logo</p></a>
+    <div class="welcome">
+        {% if app.user %}
+            <a href={{ path('mix_s_homepage') }}>
+                <button type="button"
+                        class="btn btn-primary btn-lg">Welcome!
+                </button>
+            </a>
+        {% elseif not app.user %}
+            <a href="{{ path('fos_user_security_login') }}">
+                <button type="button" class="btn btn-success btn-lg">Login</button>
+            </a>
+            <a href="{{ path('fos_user_registration_register') }}">
+                <button type="button" class="btn btn-warning btn-lg">Sign up!</button>
+            </a>
+            <a href="{{ path('mix_s_homepage') }}">
+                <button type="button" class="btn btn-lg">Guest</button>
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}

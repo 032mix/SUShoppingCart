@@ -1,0 +1,4 @@
+services:
+#    mix_s.example:
+#        class: Mixailoff\ShopBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

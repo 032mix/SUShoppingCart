@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+{% block title %}{{ products[0].productcategory.name }}{% endblock %}
+{% block body %}
+    <h3 align="center">Category: {{ products[0].productcategory.name }}</h3>
+
+    <div class="well" align="center">
+        <button data-toggle="collapse" data-target="#demo" class="btn btn-info btn-lg">Filters</button>
+        <div id="demo" class="collapse">
+            Lorem ipsum dolor text....
+        </div>
+    </div>
+    <br><br>
+
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-sm-4">
+                    <a href="{{ path('mix_s_product_display', {id: product.id}) }}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><h4>{{ product.title|slice(0,20) }}</h4></div>
+                            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE"
+                                                         class="img-responsive" style="width:100%" alt="Image"></div>
+                            <div class="panel-footer" align="center"><h4>${{ product.price }}</h4></div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

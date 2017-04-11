@@ -1,0 +1,24 @@
+admin_editor_index:
+    path:     /
+    defaults: { _controller: "MixSBundle:Editor:index" }
+    methods:  GET
+
+admin_editor_show:
+    path:     /{id}/show
+    defaults: { _controller: "MixSBundle:Editor:show" }
+    methods:  GET
+
+admin_editor_new:
+    path:     /new
+    defaults: { _controller: "MixSBundle:Editor:new" }
+    methods:  [GET, POST]
+
+admin_editor_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "MixSBundle:Editor:edit" }
+    methods:  [GET, POST]
+
+admin_editor_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "MixSBundle:Editor:delete" }
+    methods:  DELETE

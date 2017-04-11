@@ -1,0 +1,3 @@
+mix_s:
+    resource: "@MixSBundle/Resources/config/routing.yml"
+    prefix:   /

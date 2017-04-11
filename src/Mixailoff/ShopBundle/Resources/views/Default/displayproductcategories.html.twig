@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+{% block title %}Categories{% endblock %}
+{% block body %}
+    {% for category in productCategories %}
+        <div class="categorylist">
+            <a href="{{ path('mix_s_category_display', {id: category.id}) }}">
+                <h1>{{ category.name }}</h1>
+            </a>
+        </div>
+    {% endfor %}
+{% endblock %}

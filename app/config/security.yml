@@ -1,0 +1,36 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Mixailoff\ShopBundle\Entity\User: bcrypt
+        Mixailoff\ShopBundle\Entity\Editor: bcrypt
+        FOS\UserBundle\Model\UserInterface: bcrypt
+    role_hierarchy:
+        ROLE_EDITOR: ROLE_USER
+        ROLE_ADMIN: ROLE_EDITOR
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+        editor_db:
+            entity: { class: MixSBundle:Editor, property: username }
+    firewalls:
+        main:
+            pattern: /.*
+            form_login:
+                provider: fos_userbundle
+                default_target_path: /
+            logout:
+                path: /logout
+                target: /
+            security: true
+            anonymous: true
+    access_control:
+        - { path: /login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /admin/user, roles: ROLE_ADMIN }
+        - { path: /admin/editor, roles: ROLE_ADMIN }
+        - { path: /edit/productcategory, roles: ROLE_EDITOR }
+        - { path: /edit/product, roles: ROLE_USER }
+        - { path: /.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }

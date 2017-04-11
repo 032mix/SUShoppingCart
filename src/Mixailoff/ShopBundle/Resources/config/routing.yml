@@ -1,0 +1,48 @@
+welcome_page:
+    path: /
+    defaults: { _controller: MixSBundle:Default:welcome }
+
+mix_s_category_display:
+    path: /categories/{id}
+    defaults: { _controller: MixSBundle:Default:displayCategory }
+
+mix_s_product_categories_display:
+    path: /categories
+    defaults: { _controller: MixSBundle:Default:displayCategories }
+
+mix_s_product_display:
+    path: /product/{id}
+    defaults: { _controller: MixSBundle:Default:displayProduct }
+
+mix_s_edit_product:
+    resource: "@MixSBundle/Resources/config/routing/product.yml"
+    prefix:   /edit/product
+
+mix_s_edit_productcategory:
+    resource: "@MixSBundle/Resources/config/routing/productcategory.yml"
+    prefix:   /edit/productcategory
+
+mix_s_homepage:
+    path:     /home/{page}
+    defaults: { _controller: MixSBundle:Default:index, page: 1 }
+    requirements:
+      page: '\d+'
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
