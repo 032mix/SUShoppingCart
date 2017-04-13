@@ -26,7 +26,7 @@ mix_s_homepage:
     path:     /home/{page}
     defaults: { _controller: MixSBundle:Default:index, page: 1 }
     requirements:
-      page: '\d+'
+        page: '\d+'
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

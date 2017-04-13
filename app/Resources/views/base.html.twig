@@ -42,11 +42,11 @@
                         <li {{ route ==  'mix_s_product_categories_display' ? 'class="active"' }}><a
                                     href="{{ path('mix_s_product_categories_display') }}">All Categories</a></li>
                         <li class="divider"></li>
-                        {% for category in productCategories %}
+                        {#{% for category in productCategories %}
                             <li {{ route == '' ? 'class="active"' }}><a
                                         href="{{ path('mix_s_category_display', {id: category.id}) }}">{{ category.name }}</a>
                             </li>
-                        {% endfor %}
+                        {% endfor %}#}
                     </ul>
             </ul>
             {% if app.user %}

@@ -12,14 +12,10 @@ class DefaultController extends Controller
         $products = $em
             ->getRepository('MixSBundle:Product')
             ->getAllProducts($page);
-
-        $allproducts = $products->count();
+        $allproducts = count($products);
         $pages = range(1, ceil($allproducts / 9));
-        $productCategories = $em
-            ->getRepository('MixSBundle:ProductCategory')
-            ->getAllProductCategories();
         return $this->render('MixSBundle:Default:index.html.twig', array('products' => $products,
-            'pages' => $pages, 'productCategories' => $productCategories));
+            'pages' => $pages));
     }
 
     public function displayProductAction($id)
@@ -48,11 +44,8 @@ class DefaultController extends Controller
             ->getRepository('MixSBundle:Product')
             ->findBy(
                 array('productcategory' => $id));
-        $productCategories = $em
-            ->getRepository('MixSBundle:ProductCategory')
-            ->getAllProductCategories();
         return $this->render('MixSBundle:Default:displayproductcategory.html.twig',
-            array('products' => $products, 'productCategories' => $productCategories));
+            array('products' => $products));
     }
 
     public function welcomeAction()

@@ -12,10 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProductCategoryController extends Controller
 {
-    /**
-     * Lists all productCategory entities.
-     *
-     */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -27,19 +23,21 @@ class ProductCategoryController extends Controller
         ));
     }
 
-    /**
-     * Creates a new productCategory entity.
-     *
-     */
+/*    public function navbarListCategoriesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $productCategories = $em
+            ->getRepository('MixSBundle:ProductCategory')
+            ->getAllProductCategories();
+        return $this->render('MixSBundle:Default:navbarListCategories.html.twig',
+            array('productCategories' => $productCategories));
+    }*/
+
     public function newAction(Request $request)
     {
         $productCategory = new Productcategory();
         $form = $this->createForm('Mixailoff\ShopBundle\Form\ProductCategoryType', $productCategory);
         $form->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
-        $productCategories = $em
-            ->getRepository('MixSBundle:ProductCategory')
-            ->getAllProductCategories();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -52,42 +50,24 @@ class ProductCategoryController extends Controller
         return $this->render('productcategory/new.html.twig', array(
             'productCategory' => $productCategory,
             'form' => $form->createView(),
-            'productCategories' => $productCategories
         ));
     }
 
-    /**
-     * Finds and displays a productCategory entity.
-     *
-     */
     public function showAction(ProductCategory $productCategory)
     {
         $deleteForm = $this->createDeleteForm($productCategory);
-        $em = $this->getDoctrine()->getManager();
-        $productCategories = $em
-            ->getRepository('MixSBundle:ProductCategory')
-            ->getAllProductCategories();
 
         return $this->render('productcategory/show.html.twig', array(
             'productCategory' => $productCategory,
             'delete_form' => $deleteForm->createView(),
-            'productCategories' => $productCategories
         ));
     }
 
-    /**
-     * Displays a form to edit an existing productCategory entity.
-     *
-     */
     public function editAction(Request $request, ProductCategory $productCategory)
     {
         $deleteForm = $this->createDeleteForm($productCategory);
         $editForm = $this->createForm('Mixailoff\ShopBundle\Form\ProductCategoryType', $productCategory);
         $editForm->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
-        $productCategories = $em
-            ->getRepository('MixSBundle:ProductCategory')
-            ->getAllProductCategories();
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -99,14 +79,9 @@ class ProductCategoryController extends Controller
             'productCategory' => $productCategory,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-            'productCategories' => $productCategories
         ));
     }
 
-    /**
-     * Deletes a productCategory entity.
-     *
-     */
     public function deleteAction(Request $request, ProductCategory $productCategory)
     {
         $form = $this->createDeleteForm($productCategory);
