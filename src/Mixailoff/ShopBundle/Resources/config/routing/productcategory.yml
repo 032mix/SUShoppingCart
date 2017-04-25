@@ -1,24 +1,24 @@
 edit_productcategory_index:
     path:     /
-    defaults: { _controller: "MixSBundle:ProductCategory:index" }
+    defaults: { _controller: "MixSBundle:Admin/ProductCategory:index" }
     methods:  GET
 
 edit_productcategory_show:
     path:     /{id}/show
-    defaults: { _controller: "MixSBundle:ProductCategory:show" }
+    defaults: { _controller: "MixSBundle:Admin/ProductCategory:show" }
     methods:  GET
 
 edit_productcategory_new:
     path:     /new
-    defaults: { _controller: "MixSBundle:ProductCategory:new" }
+    defaults: { _controller: "MixSBundle:Admin/ProductCategory:new" }
     methods:  [GET, POST]
 
 edit_productcategory_edit:
     path:     /{id}/edit
-    defaults: { _controller: "MixSBundle:ProductCategory:edit" }
+    defaults: { _controller: "MixSBundle:Admin/ProductCategory:edit" }
     methods:  [GET, POST]
 
 edit_productcategory_delete:
     path:     /{id}/delete
-    defaults: { _controller: "MixSBundle:ProductCategory:delete" }
+    defaults: { _controller: "MixSBundle:Admin/ProductCategory:delete" }
     methods:  DELETE

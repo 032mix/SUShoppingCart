@@ -8,7 +8,7 @@
         {% if app.user %}
             <a href={{ path('mix_s_homepage') }}>
                 <button type="button"
-                        class="btn btn-primary btn-lg">Welcome!
+                        class="btn btn-primary btn-lg">Welcome, {{ user.username }} !
                 </button>
             </a>
         {% elseif not app.user %}

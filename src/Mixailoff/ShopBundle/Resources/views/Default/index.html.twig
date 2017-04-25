@@ -1,6 +1,21 @@
 {% extends '::base.html.twig' %}
-{% block title %}Homepage{% endblock %}
+
+{% block title %}
+    {% set route = app.request.attributes.get('_route') %}
+    {% if route == 'mix_s_homepage' %}
+        Homepage
+    {% elseif route == 'mix_s_category_display' and productInfo %}
+        {{ productInfo[0].productcategory.name }}
+    {% else %}
+        MShop
+    {% endif %}
+{% endblock %}
+
 {% block body %}
+    {% set route = app.request.attributes.get('_route') %}
+    {% if route == 'mix_s_category_display' %}
+        <h3 align="center">Category: {% if productInfo %}{{ productInfo[0].productcategory.name }}{% endif %}</h3>
+    {% endif %}
     <div class="well" align="center">
         <button data-toggle="collapse" data-target="#demo" class="btn btn-info btn-lg"><span
                     class="glyphicon glyphicon-filter"></span> Filters
@@ -19,8 +34,9 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h4>{{ product.productcategory.name }} {{ product.title|slice(0,20) }}</h4></div>
-                            <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE"
-                                                         class="img-responsive" style="width:100%" alt="Image"></div>
+                            <div class="panel-body" style="height:250px"><img
+                                        src="/images/productimages/{{ product.image }}"
+                                        class="img-responsive" style="height:100%" alt="Image"></div>
                             <div class="panel-footer" align="center"><h4>${{ product.price }}</h4></div>
                         </div>
                     </a>
@@ -31,9 +47,16 @@
     {% if pages >= 1 %}
         <div align="center">
             <ul class="pagination">
-                {% for key in pages %}
-                    <li><a href="{{ path('mix_s_homepage', {page: key}) }}">{{ key }}</a></li>
-                {% endfor %}
+                {% if route ==  'mix_s_homepage' %}
+                    {% for key in pages %}
+                        <li><a href="{{ path('mix_s_homepage', {page: key}) }}">{{ key }}</a></li>
+                    {% endfor %}
+                {% elseif route == 'mix_s_category_display' and productInfo %}
+                    {% for key in pages %}
+                        <li><a href="{{ path('mix_s_category_display',
+                            {categoryId: productInfo[0].productcategory.id ,page: key}) }}">{{ key }}</a></li>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     {% endif %}

@@ -3,6 +3,8 @@
 namespace Mixailoff\ShopBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,9 +17,10 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
+            ->add('description', TextType::class)
             ->add('price')
             ->add('productcategory')
+            ->add('image', FileType::class, array('data_class' => null))
             ->add('quantity')
             ->add('isVisible');
     }

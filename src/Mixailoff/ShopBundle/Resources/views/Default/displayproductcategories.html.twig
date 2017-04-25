@@ -4,7 +4,7 @@
     <div align="center" class="well">
         {% for category in productCategories %}
             <button type="button" class="btn btn-default">
-                <a href="{{ path('mix_s_category_display', {id: category.id}) }}">
+                <a href="{{ path('mix_s_category_display', {categoryId: category.id}) }}">
                     <h4>{{ category.name }}</h4>
                 </a>
             </button>

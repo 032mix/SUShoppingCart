@@ -2,17 +2,26 @@ welcome_page:
     path: /
     defaults: { _controller: MixSBundle:Default:welcome }
 
+mix_s_homepage:
+    path:     /home/{page}
+    defaults: { _controller: MixSBundle:Product:index, page: 1 }
+    requirements:
+        page: '\d+'
+
 mix_s_category_display:
-    path: /categories/{id}
-    defaults: { _controller: MixSBundle:Default:displayCategory }
+    path: /categories/{categoryId}/{page}
+    defaults: { _controller: MixSBundle:Product:displayProductsByCategory, page: 1 }
+    requirements:
+        id: '\d+'
+        page: '\d+'
 
 mix_s_product_categories_display:
     path: /categories
-    defaults: { _controller: MixSBundle:Default:displayCategories }
+    defaults: { _controller: MixSBundle:Category:displayCategories }
 
 mix_s_product_display:
     path: /product/{id}
-    defaults: { _controller: MixSBundle:Default:displayProduct }
+    defaults: { _controller: MixSBundle:Product:displayProduct }
 
 mix_s_edit_product:
     resource: "@MixSBundle/Resources/config/routing/product.yml"
@@ -21,12 +30,6 @@ mix_s_edit_product:
 mix_s_edit_productcategory:
     resource: "@MixSBundle/Resources/config/routing/productcategory.yml"
     prefix:   /edit/productcategory
-
-mix_s_homepage:
-    path:     /home/{page}
-    defaults: { _controller: MixSBundle:Default:index, page: 1 }
-    requirements:
-        page: '\d+'
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -46,3 +49,27 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+
+mix_s_cart_display:
+    path: /cart
+    defaults: { _controller: MixSBundle:Cart:index }
+
+mix_s_cart_addproduct:
+    path: /product/{productId}/add
+    defaults: { _controller: MixSBundle:Cart:addToCart }
+    requirements:
+        id: '\d+'
+
+mix_s_cart_checkout:
+    path: /cart/checkout
+    defaults: { _controller: MixSBundle:Cart:checkout }
+
+mix_s_cart_clear:
+    path: /cart/clear
+    defaults: { _controller: MixSBundle:Cart:clearCart }
+
+mix_s_cart_removeproduct:
+    path: /cart/remove/{productId}
+    defaults: { _controller: MixSBundle:Cart:removeProductFromCart }
+    requirements:
+        id: '\d+'

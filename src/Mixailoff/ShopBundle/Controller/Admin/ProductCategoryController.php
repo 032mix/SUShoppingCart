@@ -1,15 +1,11 @@
 <?php
 
-namespace Mixailoff\ShopBundle\Controller;
+namespace Mixailoff\ShopBundle\Controller\Admin;
 
 use Mixailoff\ShopBundle\Entity\ProductCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Productcategory controller.
- *
- */
 class ProductCategoryController extends Controller
 {
     public function indexAction()
@@ -18,20 +14,10 @@ class ProductCategoryController extends Controller
 
         $productCategories = $em->getRepository('MixSBundle:ProductCategory')->findAll();
 
-        return $this->render('productcategory/index.html.twig', array(
+        return $this->render('MixSBundle:Admin/productcategory:index.html.twig', array(
             'productCategories' => $productCategories,
         ));
     }
-
-/*    public function navbarListCategoriesAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $productCategories = $em
-            ->getRepository('MixSBundle:ProductCategory')
-            ->getAllProductCategories();
-        return $this->render('MixSBundle:Default:navbarListCategories.html.twig',
-            array('productCategories' => $productCategories));
-    }*/
 
     public function newAction(Request $request)
     {
@@ -47,7 +33,7 @@ class ProductCategoryController extends Controller
             return $this->redirectToRoute('edit_productcategory_show', array('id' => $productCategory->getId()));
         }
 
-        return $this->render('productcategory/new.html.twig', array(
+        return $this->render('MixSBundle:Admin/productcategory:new.html.twig', array(
             'productCategory' => $productCategory,
             'form' => $form->createView(),
         ));
@@ -57,7 +43,7 @@ class ProductCategoryController extends Controller
     {
         $deleteForm = $this->createDeleteForm($productCategory);
 
-        return $this->render('productcategory/show.html.twig', array(
+        return $this->render('MixSBundle:Admin/productcategory:show.html.twig', array(
             'productCategory' => $productCategory,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -75,7 +61,7 @@ class ProductCategoryController extends Controller
             return $this->redirectToRoute('edit_productcategory_edit', array('id' => $productCategory->getId()));
         }
 
-        return $this->render('productcategory/edit.html.twig', array(
+        return $this->render('MixSBundle:Admin/productcategory:edit.html.twig', array(
             'productCategory' => $productCategory,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -97,8 +83,6 @@ class ProductCategoryController extends Controller
     }
 
     /**
-     * Creates a form to delete a productCategory entity.
-     *
      * @param ProductCategory $productCategory The productCategory entity
      *
      * @return \Symfony\Component\Form\Form The form

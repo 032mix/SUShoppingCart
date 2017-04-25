@@ -2,102 +2,42 @@
 
 namespace Mixailoff\ShopBundle\Controller;
 
-use Mixailoff\ShopBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Product controller.
- *
- */
 class ProductController extends Controller
 {
-    public function indexAction()
+    public function indexAction($page = 1)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $products = $em->getRepository('MixSBundle:Product')->findAll();
-
-        return $this->render('product/index.html.twig', array(
-            'products' => $products,
-        ));
+        $products = $em
+            ->getRepository('MixSBundle:Product')
+            ->getAllProducts($page);
+        $allproducts = count($products);
+        $pages = range(1, ceil($allproducts / 9));
+        return $this->render('MixSBundle:Default:index.html.twig', array('products' => $products,
+            'pages' => $pages));
     }
 
-    public function newAction(Request $request)
+    public function displayProductsByCategoryAction($categoryId, $page = 1)
     {
-        $product = new Product();
-        $form = $this->createForm('Mixailoff\ShopBundle\Form\ProductType', $product);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($product);
-            $em->flush($product);
-
-            return $this->redirectToRoute('edit_product_show', array('id' => $product->getId()));
-        }
-
-        return $this->render('product/new.html.twig', array(
-            'product' => $product,
-            'form' => $form->createView(),
-        ));
+        $em = $this->getDoctrine()->getManager();
+        $products = $em
+            ->getRepository('MixSBundle:Product')
+            ->getProductsByCategory($categoryId, $page);
+        $productsPagination = count($products[0]);
+        $pages = range(1, ceil($productsPagination / 9));
+        return $this->render('MixSBundle:Default:index.html.twig',
+            array('products' => $products[0],
+                'pages' => $pages,
+                'productInfo' => $products[1]));
     }
 
-    public function showAction(Product $product)
+    public function displayProductAction($id)
     {
-        $deleteForm = $this->createDeleteForm($product);
-
-        return $this->render('product/show.html.twig', array(
-            'product' => $product,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    public function editAction(Request $request, Product $product)
-    {
-        $deleteForm = $this->createDeleteForm($product);
-        $editForm = $this->createForm('Mixailoff\ShopBundle\Form\ProductType', $product);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('edit_product_edit', array('id' => $product->getId()));
-        }
-
-        return $this->render('product/edit.html.twig', array(
-            'product' => $product,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    public function deleteAction(Request $request, Product $product)
-    {
-        $form = $this->createDeleteForm($product);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($product);
-            $em->flush($product);
-        }
-
-        return $this->redirectToRoute('edit_product_index');
-    }
-
-    /**
-     * Creates a form to delete a product entity.
-     *
-     * @param Product $product The product entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Product $product)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('edit_product_delete', array('id' => $product->getId())))
-            ->setMethod('DELETE')
-            ->getForm();
+        $em = $this->getDoctrine()->getManager();
+        $product = $em
+            ->getRepository('MixSBundle:Product')
+            ->find($id);
+        return $this->render('MixSBundle:Default:displayproduct.html.twig', array('product' => $product));
     }
 }
