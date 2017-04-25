@@ -15,10 +15,8 @@ class CartController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $cartId = $em
-            ->getRepository('MixSBundle:Cart')
-            ->findOneBy(['user' => $user])
-            ->getId();
+        $session = $this->get('session');
+        $cartId = $session->get('id_cart', false);
         $items = $em
             ->getRepository('MixSBundle:CartProduct')
             ->findBy(['cart' => $cartId]);

@@ -5,50 +5,55 @@
     <h3>
         <div align="center">{{ user.username }}'s cart</div>
     </h3><br>
-    <div align="center">
-        <div style="max-width: 1024px;">
-            <table class="table-bordered">
-                <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Title</th>
-                    <th width="300px">Description</th>
-                    <th width="100px">Price</th>
-                    <th>Quantity</th>
-                    <th width="80px">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for product in items %}
+    {% if items %}
+        <div align="center">
+            <div style="max-width: 1024px;">
+                <table class="table-bordered">
+                    <thead>
                     <tr>
-                        <td><img src="/images/productimages/{{ product.product.image }}" style="height: 50px"></td>
-                        <td>{{ product.product.title }}</td>
-                        <td>{{ product.product.description }}</td>
-                        <td align="center">${{ product.product.price }}</td>
-                        <td align="center">{{ product.quantity }}</td>
-                        <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
-                                        show
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('mix_s_cart_removeproduct', {productId: product.id}) }}">remove</a>
-                                </li>
-                            </ul>
-                        </td>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th width="300px">Description</th>
+                        <th width="100px">Price</th>
+                        <th>Quantity</th>
+                        <th width="80px">Actions</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for product in items %}
+                        <tr>
+                            <td><img src="/images/productimages/{{ product.product.image }}" style="height: 50px"></td>
+                            <td>{{ product.product.title }}</td>
+                            <td>{{ product.product.description }}</td>
+                            <td align="center">${{ product.product.price }}</td>
+                            <td align="center">{{ product.quantity }}</td>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
+                                            show
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('mix_s_cart_removeproduct', {productId: product.id}) }}">remove</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <a href="{{ path('mix_s_cart_checkout') }}">
+                <button type="button" class="btn btn-success btn-lg">Checkout</button>
+            </a>
+            <a href="{{ path('mix_s_cart_clear') }}">
+                <button type="button" class="btn btn-danger btn-lg">Clear Cart</button>
+            </a>
         </div>
-        <br>
-        <a href="{{ path('mix_s_cart_checkout') }}">
-            <button type="button" class="btn btn-success btn-lg">Checkout</button>
-        </a>
-        <a href="{{ path('mix_s_cart_clear') }}">
-            <button type="button" class="btn btn-danger btn-lg">Clear Cart</button>
-        </a>
-    </div>
+    {% else %}
+        <br><br>
+        <div align="center"><h3> Your Cart is empty!</h3></div>
+    {% endif %}
 {% endblock %}
