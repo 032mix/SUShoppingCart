@@ -87,27 +87,24 @@ class CartController extends Controller
         $cartProductRepo = $em->getRepository('MixSBundle:CartProduct');
         $user = $this->getUser();
         $session = $this->get('session');
-        $cartId = $em->getRepository('MixSBundle:Cart')->findBy(['user' => $user]);
+        $cartId = $session->get('id_cart', false);
+        $cart = $em->getRepository('MixSBundle:Cart')->find($session->get('id_cart', false));
 
         if (!$cartId) {
             throw $this->createNotFoundException();
         }
 
-        $userInventoryId = $em->getRepository('MixSBundle:UserInventory')->findBy(['user' => $user]);
+        $userInventory = $em->getRepository('MixSBundle:UserInventory')->findOneBy(['user' => $user]);
 
-        if (!$userInventoryId) {
+        if (!$userInventory) {
             $inventory = new UserInventory();
             $inventory->setUser($user);
 
             $em->persist($inventory);
             $em->flush();
-
-            $session->set('id_inventory', $inventory->getId());
         }
-        $userInventory = $em
-            ->getRepository('MixSBundle:UserInventory')
-            ->find($session->get('id_inventory', false));
-        $cartProduct = $cartProductRepo->findBy(['cart' => $cartId]);
+        $userInventory = $em->getRepository('MixSBundle:UserInventory')->findOneBy(['user' => $user]);
+        $cartProduct = $cartProductRepo->findBy(['cart' => $cart]);
         $products = [];
         $quantity = [];
         foreach ($cartProduct as $productFromCart) {
@@ -139,7 +136,7 @@ class CartController extends Controller
                     $realProductNewQty = $realProduct->getQuantity() - $productQuantity;
                     if ($realProductNewQty < 0) {
                         throw $this->createNotFoundException(
-                            'Not enough products left. Products remaining:' . $realProduct->getQuantity());
+                            'Not enough products left. Products remaining:' . ' ' . $realProduct->getQuantity());
                     } else {
                         $realProduct->setQuantity($realProductNewQty);
 
