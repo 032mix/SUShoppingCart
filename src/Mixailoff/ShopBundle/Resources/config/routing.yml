@@ -73,3 +73,7 @@ mix_s_cart_removeproduct:
     defaults: { _controller: MixSBundle:Cart:removeProductFromCart }
     requirements:
         id: '\d+'
+
+mix_s_inventory_display:
+    path: /inventory
+    defaults: { _controller: MixSBundle:Inventory:index }

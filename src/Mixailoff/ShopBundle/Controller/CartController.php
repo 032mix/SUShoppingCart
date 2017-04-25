@@ -32,14 +32,15 @@ class CartController extends Controller
         $productRepo = $em->getRepository('MixSBundle:Product');
 
         if (!$product = $productRepo->find($productId)) {
-            throw $this->createNotFoundException();
+            throw $this->createNotFoundException('Product not found!');
         }
 
         $user = $this->getUser();
         $session = $this->get('session');
         $cartId = $session->get('id_cart', false);
+        $cart = $em->getRepository('MixSBundle:Cart')->find($session->get('id_cart', false));
 
-        if (!$cartId) {
+        if (!$cartId or !$cart) {
             $cart = new Cart();
             $cart->setUser($user);
             $cart->setDateCreated(new \DateTime());
@@ -51,7 +52,6 @@ class CartController extends Controller
             $session->set('id_cart', $cart->getId());
         }
 
-        $cart = $em->getRepository('MixSBundle:Cart')->find($session->get('id_cart', false));
         $product = $productRepo->find($productId);
         $quantity = $request->get('quantity');
         if ($product) {
@@ -87,13 +87,14 @@ class CartController extends Controller
         $cartProductRepo = $em->getRepository('MixSBundle:CartProduct');
         $user = $this->getUser();
         $session = $this->get('session');
-        $cartId = $session->get('id_cart', false);
+        $cartId = $em->getRepository('MixSBundle:Cart')->findBy(['user' => $user]);
 
         if (!$cartId) {
             throw $this->createNotFoundException();
         }
 
-        $userInventoryId = $session->get('id_inventory', false);
+        $userInventoryId = $em->getRepository('MixSBundle:UserInventory')->findBy(['user' => $user]);
+
         if (!$userInventoryId) {
             $inventory = new UserInventory();
             $inventory->setUser($user);
@@ -159,7 +160,6 @@ class CartController extends Controller
             }
         }
 
-        $em->persist($userInventory);
         $this->clearCartAction();
         $em->flush();
 
