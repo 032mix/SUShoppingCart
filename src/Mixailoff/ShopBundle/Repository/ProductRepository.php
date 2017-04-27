@@ -2,8 +2,6 @@
 
 namespace Mixailoff\ShopBundle\Repository;
 
-use Mixailoff\ShopBundle\Entity\Product;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * ProductRepository
@@ -13,10 +11,6 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
-    /**
-     * @return \Doctrine\ORM\Tools\Pagination\Paginator
-     * @return Product[]
-     */
     public function getAllProducts()
     {
         $query = $this
@@ -51,7 +45,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('p.quantity != 0')
             ->andWhere('p.title LIKE :search')
             ->orWhere('p.description LIKE :search')
-            ->setParameter('search','%' . $search . '%')
+            ->setParameter('search', '%' . $search . '%')
             ->OrderBy('p.createdAt', 'DESC')
             ->getQuery()->getResult();
 

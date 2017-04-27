@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Products list</h1>
+    <div align="center">
+        <div style="max-width: 1024px;">
+            <table class="table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th width="100px">Status</th>
+                    <th width="200px">Last Login</th>
+                    <th>Role</th>
+                    <th>Current Balance</th>
+                    <th width="80px">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="">{{ user.id }}</a></td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td align="center">{% if user.enabled == 1 %}
+                                <div style="color: green">active</div>
+                            {% elseif user.enabled == 0 %}
+                                <div style="color: red">banned</div>
+                            {% endif %}</td>
+                        <td align="center">{{ user.lastLogin|date('d.m.y H:i') }}</td>
+                        <td align="center">{{ user.roles[0] }}</td>
+                        <td align="center">{{ user.currentBalance }}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="">inventory</a>
+                                </li>
+                                <li>
+                                    {% if user.enabled == 1 %}
+                                        <a href="">ban</a>
+                                    {% elseif user.enabled == 0 %}
+                                        <a href="">unban</a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

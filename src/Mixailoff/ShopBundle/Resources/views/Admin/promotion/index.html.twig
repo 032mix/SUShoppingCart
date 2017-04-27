@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Promotions list</h1>
+    <div align="center">
+        <div style="max-width: 1024px;">
+            <table class="table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Percent</th>
+                    <th style="width: 150px;">Startdate</th>
+                    <th style="width: 150px">Enddate</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for promotion in promotions %}
+                    <tr>
+                        <td><a href="{{ path('admin_promotion_show', { 'id': promotion.id }) }}">{{ promotion.id }}</a>
+                        </td>
+                        <td>{{ promotion.percent }}</td>
+                        <td>{% if promotion.startDate %}{{ promotion.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{% if promotion.endDate %}{{ promotion.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('admin_promotion_show', { 'id': promotion.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_promotion_edit', { 'id': promotion.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <h2><a href="{{ path('admin_promotion_new') }}">Create a new promotion</a></h2>
+        </div>
+    </div>
+{% endblock %}

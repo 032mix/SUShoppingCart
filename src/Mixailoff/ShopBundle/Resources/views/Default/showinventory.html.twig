@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+{% block title %}{{ user.username }}'s inventory{% endblock %}
+{% block body %}
+    <div align="center"><h3>{{ user.username }}'s inventory</h3></div>
+    <br>
+    {% if app.session.flashBag.has('success') %}
+        <div align="center">
+            {% for message in app.session.flashBag.get('success') %}
+                <h3 style="color: green;">{{ message }}</h3>
+            {% endfor %}
+        </div>
+        <br>
+    {% endif %}
+    {% if items %}
+        <div align="center">
+            <div style="max-width: 1024px;">
+                <table class="table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th width="300px">Description</th>
+                        <th>Quantity</th>
+                        <th width="80px">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in items %}
+                        <tr>
+                            <td align="center"><img src="/images/productimages/{{ product.product.image }}"
+                                                    style="height: 50px"></td>
+                            <td>{{ product.product.title }}</td>
+                            <td>{{ product.product.description }}</td>
+                            <td align="center">{{ product.quantity }}</td>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
+                                            show
+                                        </a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <br><br>
+        <div align="center"><h3> Your Inventory is empty!</h3></div>
+    {% endif %}
+    <br>
+    <div align="center">
+        <a href="{{ path('mix_s_cart_display') }}">
+            <button type="button" class="btn btn-info btn-lg">Back to cart</button>
+        </a>
+    </div>
+{% endblock %}
