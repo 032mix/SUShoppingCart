@@ -9,10 +9,9 @@ mix_s_homepage:
         page: '\d+'
 
 mix_s_category_display:
-    path: /categories/{categoryId}/{page}
+    path: /categories/{catId}/{page}
     defaults: { _controller: MixSBundle:Product:displayProductsByCategory, page: 1 }
     requirements:
-        id: '\d+'
         page: '\d+'
 
 mix_s_product_categories_display:
@@ -77,3 +76,9 @@ mix_s_cart_removeproduct:
 mix_s_inventory_display:
     path: /inventory
     defaults: { _controller: MixSBundle:Inventory:index }
+
+mix_s_products_filtered_display:
+    path: /filtered/{page}
+    defaults: { _controller: MixSBundle:Product:displayProductsByFilter, page: 1 }
+    requirements:
+        page: '\d+'

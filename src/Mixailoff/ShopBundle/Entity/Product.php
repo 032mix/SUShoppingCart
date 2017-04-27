@@ -74,6 +74,12 @@ class Product
      */
     private $image;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Mixailoff\ShopBundle\Entity\Promotion", mappedBy="product")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     */
+    private $promotion;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -247,5 +253,13 @@ class Product
     public function setImage($image)
     {
         $this->image = $image;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
     }
 }

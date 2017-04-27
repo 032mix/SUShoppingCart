@@ -21,7 +21,7 @@
                 {% for product in products %}
                     <tr>
                         <td><a href="{{ path('edit_product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
-                        <td><img src="/images/productimages/{{ product.image }}" style="height: 50px"></td>
+                        <td align="center"><img src="/images/productimages/{{ product.image }}" style="height: 50px"></td>
                         <td>{{ product.title }}</td>
                         <td>{{ product.description }}</td>
                         <td align="center">${{ product.price }}</td>

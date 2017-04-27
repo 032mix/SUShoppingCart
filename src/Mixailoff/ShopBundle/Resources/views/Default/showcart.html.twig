@@ -5,6 +5,14 @@
     <h3>
         <div align="center">{{ user.username }}'s cart</div>
     </h3><br>
+    {% if app.session.flashBag.has('success') %}
+        <div align="center">
+            {% for message in app.session.flashBag.get('success') %}
+                <h3 style="color: green;">{{ message }}</h3>
+            {% endfor %}
+        </div>
+        <br>
+    {% endif %}
     {% if items %}
         <div align="center">
             <div style="max-width: 1024px;">
@@ -22,7 +30,8 @@
                     <tbody>
                     {% for product in items %}
                         <tr>
-                            <td><img src="/images/productimages/{{ product.product.image }}" style="height: 50px"></td>
+                            <td align="center"><img src="/images/productimages/{{ product.product.image }}"
+                                                    style="height: 50px"></td>
                             <td>{{ product.product.title }}</td>
                             <td>{{ product.product.description }}</td>
                             <td align="center">${{ product.product.price }}</td>

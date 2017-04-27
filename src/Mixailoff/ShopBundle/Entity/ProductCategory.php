@@ -34,6 +34,12 @@ class ProductCategory
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Mixailoff\ShopBundle\Entity\Promotion", mappedBy="category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $promotion;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -85,7 +91,7 @@ class ProductCategory
      *
      * @return ProductCategory
      */
-    public function addProduct(\Mixailoff\ShopBundle\Entity\Product $product)
+    public function addProduct(Product $product)
     {
         $this->products[] = $product;
 
@@ -97,7 +103,7 @@ class ProductCategory
      *
      * @param \Mixailoff\ShopBundle\Entity\Product $product
      */
-    public function removeProduct(\Mixailoff\ShopBundle\Entity\Product $product)
+    public function removeProduct(Product $product)
     {
         $this->products->removeElement($product);
     }
@@ -110,5 +116,13 @@ class ProductCategory
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
     }
 }

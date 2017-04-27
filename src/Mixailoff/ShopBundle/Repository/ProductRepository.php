@@ -34,14 +34,14 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         return $paginator;
     }
 
-    public function getProductsByCategory($id, $pageNumber)
+    public function getProductsByCategory($catId, $pageNumber)
     {
         $query = $this
             ->createQueryBuilder('p')
             ->where('p.isVisible = 1')
             ->andWhere('p.quantity != 0')
-            ->andWhere('p.productcategory = '. $id)
-            ->OrderBy('p.createdAt', 'ASC')
+            ->andWhere('p.productcategory = ' . $catId)
+            ->OrderBy('p.createdAt', 'DESC')
             ->setFirstResult(9 * ($pageNumber - 1))
             ->setMaxResults(9)
             ->getQuery();
@@ -51,5 +51,23 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         $results = array($paginator, $products);
 
         return $results;
+    }
+
+    public function getProductsByFilter($pageNumber, $minPrice = 1, $maxPrice = 9999)
+    {
+        $query = $this
+            ->createQueryBuilder('p')
+            ->where('p.isVisible = 1')
+            ->andWhere('p.quantity != 0')
+            ->andWhere('p.price >= ' . $minPrice)
+            ->andWhere('p.price <= ' . $maxPrice)
+            ->OrderBy('p.createdAt', 'DESC')
+            ->setFirstResult(9 * ($pageNumber - 1))
+            ->setMaxResults(9)
+            ->getQuery();
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+
+        return $paginator;
     }
 }

@@ -78,6 +78,8 @@ class CartController extends Controller
         $em->persist($cart);
         $em->flush();
 
+        $this->get('session')->getFlashBag()->add('success', 'Product successfully added to cart!');
+
         return $this->redirect($this->generateUrl('mix_s_cart_display'));
     }
 
@@ -160,7 +162,10 @@ class CartController extends Controller
         $this->clearCartAction();
         $em->flush();
 
-        return $this->redirect($this->generateUrl('mix_s_cart_display'));
+        $this->get('session')->getFlashBag()->add('success',
+            "Product/'s/ successfully bought!");
+
+        return $this->redirect($this->generateUrl('mix_s_inventory_display'));
     }
 
     public function clearCartAction()
