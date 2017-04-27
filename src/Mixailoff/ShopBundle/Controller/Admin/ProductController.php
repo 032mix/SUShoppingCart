@@ -29,10 +29,10 @@ class ProductController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var UploadedFile $file $file */
-            $file = $product->getImage();
-            $filename = md5($product->getTitle().''.$product
-                    ->getCreatedAt()->format('Y-m-d H:i:s').$file->getFileInfo()->getExtension());
-            $file->move($this->get('kernel')->getRootDir().'/../web/images/productimages/', $filename);
+            $file = $product->getImageForm();
+            $filename = md5($product->getTitle() . '' . $product
+                    ->getCreatedAt()->format('Y-m-d H:i:s') . $file->getFileInfo()->getExtension());
+            $file->move($this->get('kernel')->getRootDir() . '/../web/images/productimages/', $filename);
             $product->setImage($filename);
 
             $em = $this->getDoctrine()->getManager();
@@ -67,11 +67,14 @@ class ProductController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
             /** @var UploadedFile $file $file */
-            $file = $product->getImage();
-            $filename = md5($product->getTitle().''.$product
-                    ->getCreatedAt()->format('Y-m-d H:i:s').$file->getFileInfo()->getExtension());
-            $file->move($this->get('kernel')->getRootDir().'/../web/images/productimages/', $filename);
-            $product->setImage($filename);
+            $file = $product->getImageForm();
+
+            if ($file instanceof UploadedFile) {
+                $filename = md5($product->getTitle() . '' . $product
+                        ->getCreatedAt()->format('Y-m-d H:i:s') . $file->getFileInfo()->getExtension());
+                $file->move($this->get('kernel')->getRootDir() . '/../web/images/productimages/', $filename);
+                $product->setImage($filename);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 

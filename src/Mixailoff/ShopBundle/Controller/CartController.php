@@ -148,7 +148,6 @@ class CartController extends Controller
                             $userInventoryProduct = new UserInventoryProduct();
                             $userInventoryProduct->setInventory($userInventory);
                             $userInventoryProduct->setProduct($product);
-                            $userInventoryProduct->setBoughtPrice($productPrice);
                             $userInventoryProduct->setQuantity($userInventoryProduct
                                     ->getQuantity() + $productQuantity);
 

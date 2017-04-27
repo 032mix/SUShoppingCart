@@ -15,26 +15,22 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
      * @return \Doctrine\ORM\Tools\Pagination\Paginator
-     * @param integer $currentPage
      * @return Product[]
      */
-    public function getAllProducts($pageNumber)
+    public function getAllProducts()
     {
         $query = $this
             ->createQueryBuilder('p')
+            ->select('p')
             ->where('p.isVisible = 1')
             ->andWhere('p.quantity != 0')
             ->OrderBy('p.createdAt', 'DESC')
-            ->setFirstResult(9 * ($pageNumber - 1))
-            ->setMaxResults(9)
             ->getQuery();
 
-        $paginator = new Paginator($query, $fetchJoinCollection = true);
-
-        return $paginator;
+        return $query;
     }
 
-    public function getProductsByCategory($catId, $pageNumber)
+    public function getProductsByCategory($catId)
     {
         $query = $this
             ->createQueryBuilder('p')
@@ -42,32 +38,23 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere('p.quantity != 0')
             ->andWhere('p.productcategory = ' . $catId)
             ->OrderBy('p.createdAt', 'DESC')
-            ->setFirstResult(9 * ($pageNumber - 1))
-            ->setMaxResults(9)
             ->getQuery();
 
-        $products = $query->getResult();
-        $paginator = new Paginator($query, $fetchJoinCollection = true);
-        $results = array($paginator, $products);
-
-        return $results;
+        return $query;
     }
 
-    public function getProductsByFilter($pageNumber, $minPrice = 1, $maxPrice = 9999)
+    public function getProductsByFilter($search)
     {
         $query = $this
             ->createQueryBuilder('p')
             ->where('p.isVisible = 1')
             ->andWhere('p.quantity != 0')
-            ->andWhere('p.price >= ' . $minPrice)
-            ->andWhere('p.price <= ' . $maxPrice)
+            ->andWhere('p.title LIKE :search')
+            ->orWhere('p.description LIKE :search')
+            ->setParameter('search','%' . $search . '%')
             ->OrderBy('p.createdAt', 'DESC')
-            ->setFirstResult(9 * ($pageNumber - 1))
-            ->setMaxResults(9)
-            ->getQuery();
+            ->getQuery()->getResult();
 
-        $paginator = new Paginator($query, $fetchJoinCollection = true);
-
-        return $paginator;
+        return $query;
     }
 }

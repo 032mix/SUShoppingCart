@@ -3,16 +3,12 @@ welcome_page:
     defaults: { _controller: MixSBundle:Default:welcome }
 
 mix_s_homepage:
-    path:     /home/{page}
-    defaults: { _controller: MixSBundle:Product:index, page: 1 }
-    requirements:
-        page: '\d+'
+    path: /home
+    defaults: { _controller: MixSBundle:Product:index}
 
 mix_s_category_display:
-    path: /categories/{catId}/{page}
-    defaults: { _controller: MixSBundle:Product:displayProductsByCategory, page: 1 }
-    requirements:
-        page: '\d+'
+    path: /categories/{catId}
+    defaults: { _controller: MixSBundle:Product:displayProductsByCategory}
 
 mix_s_product_categories_display:
     path: /categories
@@ -38,6 +34,10 @@ mix_s_admin_promotion:
     resource: "@MixSBundle/Resources/config/routing/promotion.yml"
     prefix: /admin/promotion
 
+mix_s_admin_users_showall:
+    path: /admin/users
+    defaults: { _controller: MixSBundle:Admin/User:index }
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
@@ -62,7 +62,7 @@ mix_s_cart_display:
     defaults: { _controller: MixSBundle:Cart:index }
 
 mix_s_cart_addproduct:
-    path: /product/{productId}/add
+    path: /cart/add/{productId}
     defaults: { _controller: MixSBundle:Cart:addToCart }
     requirements:
         id: '\d+'
@@ -86,7 +86,5 @@ mix_s_inventory_display:
     defaults: { _controller: MixSBundle:Inventory:index }
 
 mix_s_products_filtered_display:
-    path: /filtered/{page}
-    defaults: { _controller: MixSBundle:Product:displayProductsByFilter, page: 1 }
-    requirements:
-        page: '\d+'
+    path: /filtered
+    defaults: { _controller: MixSBundle:Product:displayProductsByFilter }

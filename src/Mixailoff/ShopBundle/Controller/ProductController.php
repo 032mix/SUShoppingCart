@@ -7,53 +7,60 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends Controller
 {
-    public function indexAction($page = 1)
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $products = $em
+        $productsQuery = $em
             ->getRepository('MixSBundle:Product')
-            ->getAllProducts($page);
-        $allProducts = count($products);
-        $pages = range(1, ceil($allProducts / 9));
+            ->getAllProducts();
+        $paginator = $this->get('knp_paginator');
+        $paginatedQuery = $paginator->paginate(
+            $productsQuery,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 9)
+        );
         $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:index.html.twig',
-            array('products' => $products,
-                'pages' => $pages,
+            array('products' => $paginatedQuery,
                 'promoServ' => $promoServ
             ));
     }
 
-    public function displayProductsByCategoryAction($catId, $page = 1)
+    public function displayProductsByCategoryAction($catId, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $products = $em
+        $productsQuery = $em
             ->getRepository('MixSBundle:Product')
-            ->getProductsByCategory($catId, $page);
-        $productsPagination = count($products[0]);
-        $pages = range(1, ceil($productsPagination / 9));
+            ->getProductsByCategory($catId);
+        $paginator = $this->get('knp_paginator');
+        $paginatedQuery = $paginator->paginate(
+            $productsQuery,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 9)
+        );
         $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:index.html.twig',
-            array('products' => $products[0],
-                'pages' => $pages,
-                'productInfo' => $products[1],
+            array('products' => $paginatedQuery,
                 'promoServ' => $promoServ
             ));
     }
 
-    public function displayProductsByFilterAction(Request $request, $page = 1)
+    public function displayProductsByFilterAction(Request $request)
     {
-        $minPrice = $request->get('minPrice');
-        $maxPrice = $request->get('maxPrice');
+        $search = $request->query->getAlnum('search');
         $em = $this->getDoctrine()->getManager();
-        $products = $em
+        $productsQuery = $em
             ->getRepository('MixSBundle:Product')
-            ->getProductsByFilter($page, $minPrice, $maxPrice);
-        $allProducts = count($products);
-        $pages = range(1, ceil($allProducts / 9));
+            ->getProductsByFilter($search);
+        $paginator = $this->get('knp_paginator');
+        $paginatedQuery = $paginator->paginate(
+            $productsQuery,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 9)
+        );
         $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:index.html.twig',
-            array('products' => $products,
-                'pages' => $pages,
+            array('products' => $paginatedQuery,
                 'promoServ' => $promoServ
             ));
     }

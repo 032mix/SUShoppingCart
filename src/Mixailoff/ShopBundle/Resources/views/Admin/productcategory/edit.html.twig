@@ -2,19 +2,21 @@
 
 {% block body %}
     <div align="center">
-        <h1>Productcategory edit</h1>
+        <div style="width: 300px;">
+            <h1>Productcategory edit</h1>
 
-        {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit"/>
-        {{ form_end(edit_form) }}
+            {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+            <input type="submit" value="Edit"/>
+            {{ form_end(edit_form) }}
 
-        <ul>
-            <a href="{{ path('edit_productcategory_index') }}">Back to the list</a>
+            <ul>
+                <a href="{{ path('edit_productcategory_index') }}">Back to the list</a>
 
-            {{ form_start(delete_form) }}
-            <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </ul>
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </ul>
+        </div>
     </div>
 {% endblock %}

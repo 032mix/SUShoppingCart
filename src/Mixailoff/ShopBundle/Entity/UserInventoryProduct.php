@@ -45,13 +45,6 @@ class UserInventoryProduct
     private $quantity;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="bought_price", type="integer")
-     */
-    private $boughtPrice;
-
-    /**
      * Get id
      *
      * @return int

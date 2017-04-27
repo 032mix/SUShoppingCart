@@ -74,6 +74,8 @@ class Product
      */
     private $image;
 
+    private $imageForm;
+
     /**
      * @ORM\OneToMany(targetEntity="Mixailoff\ShopBundle\Entity\Promotion", mappedBy="product")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
@@ -261,5 +263,21 @@ class Product
     public function getPromotion()
     {
         return $this->promotion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImageForm()
+    {
+        return $this->imageForm;
+    }
+
+    /**
+     * @param mixed $imageForm
+     */
+    public function setImageForm($imageForm)
+    {
+        $this->imageForm = $imageForm;
     }
 }

@@ -4,8 +4,8 @@
     {% set route = app.request.attributes.get('_route') %}
     {% if route == 'mix_s_homepage' %}
         Homepage
-    {% elseif route == 'mix_s_category_display' and productInfo %}
-        {{ productInfo[0].productcategory.name }}
+    {% elseif route == 'mix_s_category_display' and products.items[0] %}
+        {{ products.items[0].productcategory.name }}
     {% else %}
         MShop
     {% endif %}
@@ -14,22 +14,17 @@
 {% block body %}
     {% set route = app.request.attributes.get('_route') %}
     {% if route == 'mix_s_category_display' %}
-        <h3 align="center">Category: {% if productInfo %}{{ productInfo[0].productcategory.name }}{% endif %}</h3>
+        <h3 align="center">Category: {% if products.items[0] %}{{ products.items[0].productcategory.name }}{% endif %}</h3>
     {% endif %}
     <div class="well" align="center">
         <button data-toggle="collapse" data-target="#filters" class="btn btn-info btn-lg"><span
                     class="glyphicon glyphicon-filter"></span> Filters
         </button>
         <div id="filters" class="collapse">
-            <form action="{{ path('mix_s_products_filtered_display') }}" method="post">
-                Price range:
-                <br>
-                <input type="number" name="minPrice" title="minPrice" style="width: 4em;">
-                <input type="number" name="maxPrice" title="maxPrice" style="width: 4em;">
-                <br>
-                Min / Max
-                <br>
-                <input type="submit" value="Filter!">
+            <br>
+            <form action="{{ path('mix_s_products_filtered_display') }}" method="get">
+                <input name="search" type="text">
+                <button type="submit" class="btn btn-default">Search</button>
             </form>
         </div>
     </div>
@@ -61,24 +56,9 @@
             {% endfor %}
         </div>
     </div>
-    {% if pages >= 1 %}
-        <div align="center">
-            <ul class="pagination">
-                {% if route ==  'mix_s_homepage' %}
-                    {% for key in pages %}
-                        <li><a href="{{ path('mix_s_homepage', {page: key}) }}">{{ key }}</a></li>
-                    {% endfor %}
-                {% elseif route == 'mix_s_category_display' and productInfo %}
-                    {% for key in pages %}
-                        <li><a href="{{ path('mix_s_category_display',
-                            {catId: productInfo[0].productcategory.id ,page: key}) }}">{{ key }}</a></li>
-                    {% endfor %}
-                {% elseif route == 'mix_s_products_filtered_display' %}
-                    {% for key in pages %}
-                        <li><a href="{{ path('mix_s_products_filtered_display', {page: key}) }}">{{ key }}</a></li>
-                    {% endfor %}
-                {% endif %}
-            </ul>
+    <div align="center">
+        <div class="navigation">
+            {{ knp_pagination_render(products) }}
         </div>
-    {% endif %}
+    </div>
 {% endblock %}
