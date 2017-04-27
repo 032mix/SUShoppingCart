@@ -20,9 +20,11 @@ class CartController extends Controller
         $items = $em
             ->getRepository('MixSBundle:CartProduct')
             ->findBy(['cart' => $cartId]);
+        $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:showcart.html.twig', array(
             'items' => $items,
-            'user' => $user
+            'user' => $user,
+            'promoServ' => $promoServ,
         ));
     }
 
@@ -119,7 +121,7 @@ class CartController extends Controller
         foreach ($products as $product) {
             $productQuantity = array_shift($quantity);
             $userBalance = $user->getCurrentBalance();
-            $productPrice = $product->getPrice();
+            $productPrice = $this->get('app.promotion.service')->calculatePromotedPrice($product);
             $productQtyPrice = $productPrice * $productQuantity;
             if ($userBalance < $productQtyPrice) {
                 throw $this->createNotFoundException('Not enough money in your balance.');
@@ -146,6 +148,7 @@ class CartController extends Controller
                             $userInventoryProduct = new UserInventoryProduct();
                             $userInventoryProduct->setInventory($userInventory);
                             $userInventoryProduct->setProduct($product);
+                            $userInventoryProduct->setBoughtPrice($productPrice);
                             $userInventoryProduct->setQuantity($userInventoryProduct
                                     ->getQuantity() + $productQuantity);
 

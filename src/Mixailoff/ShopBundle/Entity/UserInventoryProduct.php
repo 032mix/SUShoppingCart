@@ -44,6 +44,12 @@ class UserInventoryProduct
      */
     private $quantity;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="bought_price", type="integer")
+     */
+    private $boughtPrice;
 
     /**
      * Get id
@@ -125,6 +131,22 @@ class UserInventoryProduct
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBoughtPrice()
+    {
+        return $this->boughtPrice;
+    }
+
+    /**
+     * @param int $boughtPrice
+     */
+    public function setBoughtPrice($boughtPrice)
+    {
+        $this->boughtPrice = $boughtPrice;
     }
 }
 

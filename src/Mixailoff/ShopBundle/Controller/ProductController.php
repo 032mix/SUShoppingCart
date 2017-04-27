@@ -15,7 +15,7 @@ class ProductController extends Controller
             ->getAllProducts($page);
         $allProducts = count($products);
         $pages = range(1, ceil($allProducts / 9));
-        $promoServ = $this->get('promotion_service');
+        $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:index.html.twig',
             array('products' => $products,
                 'pages' => $pages,
@@ -31,7 +31,7 @@ class ProductController extends Controller
             ->getProductsByCategory($catId, $page);
         $productsPagination = count($products[0]);
         $pages = range(1, ceil($productsPagination / 9));
-        $promoServ = $this->get('promotion_service');
+        $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:index.html.twig',
             array('products' => $products[0],
                 'pages' => $pages,
@@ -50,7 +50,7 @@ class ProductController extends Controller
             ->getProductsByFilter($page, $minPrice, $maxPrice);
         $allProducts = count($products);
         $pages = range(1, ceil($allProducts / 9));
-        $promoServ = $this->get('promotion_service');
+        $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:index.html.twig',
             array('products' => $products,
                 'pages' => $pages,
@@ -64,7 +64,7 @@ class ProductController extends Controller
         $product = $em
             ->getRepository('MixSBundle:Product')
             ->find($id);
-        $promoServ = $this->get('promotion_service');
+        $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:displayproduct.html.twig',
             array('product' => $product,
                 'promoServ' => $promoServ

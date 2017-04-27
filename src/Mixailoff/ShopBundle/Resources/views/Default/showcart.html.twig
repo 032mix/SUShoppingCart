@@ -28,13 +28,27 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {% set totalPrice = 0 %}
+                    {% set totalDiscount = 0 %}
                     {% for product in items %}
                         <tr>
                             <td align="center"><img src="/images/productimages/{{ product.product.image }}"
                                                     style="height: 50px"></td>
                             <td>{{ product.product.title }}</td>
                             <td>{{ product.product.description }}</td>
-                            <td align="center">${{ product.product.price }}</td>
+                            <td align="center">
+                                {% set promoPrice = promoServ.calculatePromotedPrice(product.product) %}
+                                {% if promoPrice != product.product.price %}
+                                    {% set totalPrice = totalPrice + (promoPrice * product.quantity) %}
+                                    {% set totalDiscount =
+                                    totalDiscount + ((product.product.price - promoPrice) * product.quantity) %}
+                                    <del style="color: gray;"><h5>${{ product.product.price|number_format(2) }}</h5>
+                                    </del>
+                                    ${{ promoPrice|number_format(2) }}
+                                {% else %}
+                                    {% set totalPrice = totalPrice + (product.product.price * product.quantity) %}
+                                    ${{ product.product.price|number_format(2) }}
+                                {% endif %}</td>
                             <td align="center">{{ product.quantity }}</td>
                             <td>
                                 <ul>
@@ -53,6 +67,13 @@
                     </tbody>
                 </table>
             </div>
+            <h3>Total price: $ {{ totalPrice|number_format(2) }}</h3>
+            {% if totalDiscount != 0 %}
+                <h4>Total discount: $ {{ totalDiscount|number_format(2) }}</h4>
+            {% else %}
+                <h4>No discount detected.</h4>
+            {% endif %}
+            <br>
             <br>
             <a href="{{ path('mix_s_cart_checkout') }}">
                 <button type="button" class="btn btn-success btn-lg">Checkout</button>

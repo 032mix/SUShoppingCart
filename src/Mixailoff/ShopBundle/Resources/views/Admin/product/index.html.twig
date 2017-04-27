@@ -21,7 +21,8 @@
                 {% for product in products %}
                     <tr>
                         <td><a href="{{ path('edit_product_show', { 'id': product.id }) }}">{{ product.id }}</a></td>
-                        <td align="center"><img src="/images/productimages/{{ product.image }}" style="height: 50px"></td>
+                        <td align="center"><img src="/images/productimages/{{ product.image }}" style="height: 50px">
+                        </td>
                         <td>{{ product.title }}</td>
                         <td>{{ product.description }}</td>
                         <td align="center">${{ product.price }}</td>
@@ -42,9 +43,7 @@
                 </tbody>
             </table>
 
-            <ul>
-                <h2><a href="{{ path('edit_product_new') }}">Create a new product</a></h2>
-            </ul>
+            <h2><a href="{{ path('edit_product_new') }}">Create a new product</a></h2>
         </div>
     </div>
 {% endblock %}

@@ -37,12 +37,9 @@
                         <a href="{{ path('mix_s_homepage') }}"><span class="glyphicon glyphicon-home"></span> Home</a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
-                        <li {{ route ==  'edit_product_index' ? 'class="active"' }}><a
-                                    href="{{ path('edit_product_index') }}">
-                                <span class="glyphicon glyphicon-edit"></span> Edit Products</a></li>
-                        <li {{ route ==  'edit_productcategory_index' ? 'class="active"' }}><a
-                                    href="{{ path('edit_productcategory_index') }}"><span class="glyphicon
-                            glyphicon-edit"></span> Edit Categories</a></li>
+                        <li {{ route ==  'mix_s_admin_panel' ? 'class="active"' }}><a
+                                    href="{{ path('mix_s_admin_panel') }}">
+                                <span class="glyphicon glyphicon-edit"></span> Admin Panel</a></li>
                     {% endif %}
                     <li {{ route ==  'mix_s_product_categories_display' ? 'class="active"' }}>
                         <a href="{{ path('mix_s_product_categories_display') }}">

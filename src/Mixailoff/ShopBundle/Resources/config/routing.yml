@@ -22,13 +22,21 @@ mix_s_product_display:
     path: /product/{id}
     defaults: { _controller: MixSBundle:Product:displayProduct }
 
-mix_s_edit_product:
-    resource: "@MixSBundle/Resources/config/routing/product.yml"
-    prefix:   /edit/product
+mix_s_admin_panel:
+    path: /admin
+    defaults: { _controller: MixSBundle:Admin/AdminPanel:index }
 
-mix_s_edit_productcategory:
+mix_s_admin_product:
+    resource: "@MixSBundle/Resources/config/routing/product.yml"
+    prefix:   /admin/product
+
+mix_s_admin_productcategory:
     resource: "@MixSBundle/Resources/config/routing/productcategory.yml"
-    prefix:   /edit/productcategory
+    prefix:   /admin/category
+
+mix_s_admin_promotion:
+    resource: "@MixSBundle/Resources/config/routing/promotion.yml"
+    prefix: /admin/promotion
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

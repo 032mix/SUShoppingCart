@@ -29,14 +29,15 @@
                         </div>
                         <p class="product-description">{{ product.description }}</p>
                         <h4 class="price">current price:
-                            <span>$
+                            <span>
                                 {% set promoPrice = promoServ.calculatePromotedPrice(product) %}
                                 {% if promoPrice != product.price %}
                                     <del style="color: gray;"><h5>${{ product.price|number_format(2) }}</h5></del>
                                     ${{ promoPrice|number_format(2) }}
                                 {% else %}
                                     ${{ product.price|number_format(2) }}
-                                {% endif %}</span></h4>
+                                {% endif %}
+                            </span></h4>
                         <h5>Quantity left: {{ product.quantity }}</h5>
                         <div class="action">
                             {% if app.user %}
