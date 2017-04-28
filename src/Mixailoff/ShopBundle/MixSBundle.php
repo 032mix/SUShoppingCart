@@ -2,8 +2,10 @@
 
 namespace Mixailoff\ShopBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use /** @noinspection PhpUndefinedClassInspection */
+    Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/** @noinspection PhpUndefinedClassInspection */
 class MixSBundle extends Bundle
 {
     public function getParent()

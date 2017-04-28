@@ -6,17 +6,17 @@
         <h1>Admin Panel</h1><br>
         <div style="width: 60%">
             <a href="{{ path('edit_product_index') }}">
-                <button type="button" class="btn btn-primary btn-block"><h4>Products</h4></button>
+                <button type="button" class="btn btn-primary btn-block" style="font-size: 24px">Products</button>
             </a>
             <a href="{{ path('edit_productcategory_index') }}">
-                <button type="button" class="btn btn-info btn-block"><h4>Categories</h4></button>
+                <button type="button" class="btn btn-info btn-block" style="font-size: 24px">Categories</button>
             </a>
             <a href="{{ path('admin_promotion_index') }}">
-                <button type="button" class="btn btn-primary btn-block"><h4>Promotions</h4></button>
+                <button type="button" class="btn btn-primary btn-block" style="font-size: 24px">Promotions</button>
             </a>
             {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('mix_s_admin_users_showall') }}">
-                    <button type="button" class="btn btn-info btn-block"><h4>Users and Inventories</h4></button>
+                    <button type="button" class="btn btn-info btn-block" style="font-size: 24px">Users and Inventories</button>
                 </a>
             {% endif %}
         </div>

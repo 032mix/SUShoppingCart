@@ -2,9 +2,9 @@
 {% block title %}{{ user.username }}'s cart{% endblock %}
 
 {% block body %}
-    <h3>
-        <div align="center">{{ user.username }}'s cart</div>
-    </h3><br>
+    <div align="center">
+        <h3>{{ user.username }}'s cart</h3>
+    </div><br>
     {% if app.session.flashBag.has('success') %}
         <div align="center">
             {% for message in app.session.flashBag.get('success') %}

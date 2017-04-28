@@ -41,7 +41,7 @@ class UserInventory
     /**
      * Set user
      *
-     * @param \stdClass $user
+     * @param User $user
      *
      * @return UserInventory
      */
@@ -55,7 +55,7 @@ class UserInventory
     /**
      * Get user
      *
-     * @return \stdClass
+     * @return User
      */
     public function getUser()
     {

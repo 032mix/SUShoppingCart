@@ -99,16 +99,6 @@ class ProductCategory
     }
 
     /**
-     * Remove product
-     *
-     * @param \Mixailoff\ShopBundle\Entity\Product $product
-     */
-    public function removeProduct(Product $product)
-    {
-        $this->products->removeElement($product);
-    }
-
-    /**
      * Get products
      *
      * @return \Doctrine\Common\Collections\Collection

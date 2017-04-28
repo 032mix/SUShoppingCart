@@ -4,6 +4,8 @@ namespace Mixailoff\ShopBundle\Repository;
 
 use Mixailoff\ShopBundle\Entity\ProductCategory;
 
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+
 /**
  * ProductCategoryRepository
  *

@@ -1,6 +1,10 @@
 <?php
 
 namespace Mixailoff\ShopBundle\Repository;
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+/** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
 
 /**
  * CartRepository

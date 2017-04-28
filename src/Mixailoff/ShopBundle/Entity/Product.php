@@ -181,7 +181,7 @@ class Product
      *
      * @return Product
      */
-    public function setProductcategory(\Mixailoff\ShopBundle\Entity\ProductCategory $productcategory = null)
+    public function setProductcategory(ProductCategory $productcategory = null)
     {
         $this->productcategory = $productcategory;
 
