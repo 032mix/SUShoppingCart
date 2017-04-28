@@ -5,3 +5,11 @@ services:
     app.promotion.service:
         class: Mixailoff\ShopBundle\Service\PromotionService
         arguments: ['@doctrine.orm.entity_manager']
+
+    app.cart.service:
+        class: Mixailoff\ShopBundle\Service\CartService
+        arguments: ['@doctrine.orm.entity_manager', '@app.promotion.service']
+
+    app.inventory.service:
+        class: Mixailoff\ShopBundle\Service\InventoryService
+        arguments: ['@doctrine.orm.entity_manager', '@app.promotion.service']

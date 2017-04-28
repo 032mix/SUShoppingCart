@@ -24,6 +24,7 @@
                         <th width="300px">Description</th>
                         <th width="100px">Price</th>
                         <th>Quantity</th>
+                        <th>Total Price</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -50,6 +51,18 @@
                                     ${{ product.product.price|number_format(2) }}
                                 {% endif %}</td>
                             <td align="center">{{ product.quantity }}</td>
+                            <td align="center">
+                                {% if promoPrice != product.product.price %}
+                                    {% set totalPriceProduct = promoPrice * product.quantity %}
+                                    <del style="color: gray;"><h5>
+                                            ${{ product.product.price * product.quantity|number_format(2) }}</h5>
+                                    </del>
+                                    ${{ totalPriceProduct|number_format(2) }}
+                                {% else %}
+                                    {% set totalPriceProduct = product.product.price * product.quantity %}
+                                    ${{ totalPriceProduct|number_format(2) }}
+                                {% endif %}
+                            </td>
                             <td>
                                 <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
                                     <button class="btn btn-info"><span

@@ -2,10 +2,6 @@
 
 namespace Mixailoff\ShopBundle\Controller;
 
-use Mixailoff\ShopBundle\Entity\Cart;
-use Mixailoff\ShopBundle\Entity\CartProduct;
-use Mixailoff\ShopBundle\Entity\UserInventory;
-use Mixailoff\ShopBundle\Entity\UserInventoryProduct;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -38,51 +34,22 @@ class CartController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $productRepo = $em->getRepository('MixSBundle:Product');
-
-        if (!$product = $productRepo->find($productId)) {
+        if (!$productRepo->find($productId)) {
             throw $this->createNotFoundException('Product not found!');
         }
-
         $user = $this->getUser();
         $session = $this->get('session');
         $cartId = $session->get('id_cart', false);
         $cart = $em->getRepository('MixSBundle:Cart')->find($session->get('id_cart', false));
-
+        $cartService = $this->get('app.cart.service');
         if (!$cartId or !$cart) {
-            $cart = new Cart();
-            $cart->setUser($user);
-            $cart->setDateCreated(new \DateTime());
-            $cart->setDateUpdated(new \DateTime());
-
-            $em->persist($cart);
-            $em->flush();
-
+            $cart = $cartService->newCart($user);
             $session->set('id_cart', $cart->getId());
         }
-
-        $product = $productRepo->find($productId);
         $quantity = $request->get('quantity');
-        if ($product) {
-
-            $cartProduct = $em
-                ->getRepository('MixSBundle:CartProduct')
-                ->findOneBy([
-                    'cart' => $cart,
-                    'product' => $product
-                ]);
-
-            if (!$cartProduct) {
-                $cartProduct = new CartProduct();
-                $cartProduct->setCart($cart);
-                $cartProduct->addProduct($product);
-                $cartProduct->setQuantity($cartProduct->getQuantity() + $quantity);
-            } else {
-                $cartProduct->setQuantity($cartProduct->getQuantity() + $quantity);
-            }
-            $em->persist($cartProduct);
-        }
-
+        $cartService->addToCart($productId, $quantity, $cart);
         $cart->setDateUpdated(new \DateTime());
+
         $em->persist($cart);
         $em->flush();
 
@@ -94,80 +61,17 @@ class CartController extends Controller
     public function checkoutAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $cartProductRepo = $em->getRepository('MixSBundle:CartProduct');
         $user = $this->getUser();
         $session = $this->get('session');
         $cartId = $session->get('id_cart', false);
-        $cart = $em->getRepository('MixSBundle:Cart')->find($session->get('id_cart', false));
-
         if (!$cartId) {
             throw $this->createNotFoundException();
         }
-
-        $userInventory = $em->getRepository('MixSBundle:UserInventory')->findOneBy(['user' => $user]);
-
-        if (!$userInventory) {
-            $inventory = new UserInventory();
-            $inventory->setUser($user);
-
-            $em->persist($inventory);
-            $em->flush();
-        }
-        $userInventory = $em->getRepository('MixSBundle:UserInventory')->findOneBy(['user' => $user]);
-        $cartProduct = $cartProductRepo->findBy(['cart' => $cart]);
-        $products = [];
-        $quantity = [];
-        foreach ($cartProduct as $productFromCart) {
-            $quantityFromCart = $productFromCart->getQuantity();
-            array_push($quantity, $quantityFromCart);
-            $product = $productFromCart->getProduct();
-            array_push($products, $product);
-        }
-
-        foreach ($products as $product) {
-            $productQuantity = array_shift($quantity);
-            $userBalance = $user->getCurrentBalance();
-            $productPrice = $this->get('app.promotion.service')->calculatePromotedPrice($product);
-            $productQtyPrice = $productPrice * $productQuantity;
-            if ($userBalance < $productQtyPrice) {
-                throw $this->createNotFoundException('Not enough money in your balance.');
-            } else {
-                $user->setCurrentBalance($userBalance - $productQtyPrice);
-                if ($product) {
-                    $userInventoryProduct = $em
-                        ->getRepository('MixSBundle:UserInventoryProduct')
-                        ->findOneBy([
-                            'inventory' => $userInventory,
-                            'product' => $product
-                        ]);
-                    $realProduct = $em
-                        ->getRepository('MixSBundle:Product')
-                        ->find($product);
-                    $realProductNewQty = $realProduct->getQuantity() - $productQuantity;
-                    if ($realProductNewQty < 0) {
-                        throw $this->createNotFoundException(
-                            'Not enough products left. Products remaining:' . ' ' . $realProduct->getQuantity());
-                    } else {
-                        $realProduct->setQuantity($realProductNewQty);
-
-                        if (!$userInventoryProduct) {
-                            $userInventoryProduct = new UserInventoryProduct();
-                            $userInventoryProduct->setInventory($userInventory);
-                            $userInventoryProduct->setProduct($product);
-                            $userInventoryProduct->setQuantity($userInventoryProduct
-                                    ->getQuantity() + $productQuantity);
-
-                        } else {
-                            $userInventoryProduct->setQuantity($userInventoryProduct
-                                    ->getQuantity() + $productQuantity);
-                        }
-                        $em->persist($userInventoryProduct);
-                    }
-                }
-            }
-        }
-
+        $cart = $em->getRepository('MixSBundle:Cart')->find($session->get('id_cart', false));
+        $cartService = $this->get('app.cart.service');
+        $cartService->checkoutCart($user, $cart);
         $this->clearCartAction();
+
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('success',
