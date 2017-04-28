@@ -125,21 +125,5 @@ class UserInventoryProduct
     {
         return $this->quantity;
     }
-
-    /**
-     * @return int
-     */
-    public function getBoughtPrice()
-    {
-        return $this->boughtPrice;
-    }
-
-    /**
-     * @param int $boughtPrice
-     */
-    public function setBoughtPrice($boughtPrice)
-    {
-        $this->boughtPrice = $boughtPrice;
-    }
 }
 

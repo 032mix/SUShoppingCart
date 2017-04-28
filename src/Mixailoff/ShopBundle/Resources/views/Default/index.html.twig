@@ -34,19 +34,20 @@
     <div class="container">
         <div class="row">
             {% for product in products %}
+                {% set promoPrice = promoServ.calculatePromotedPrice(product) %}
                 <div class="col-sm-4">
                     <a href="{{ path('mix_s_product_display', {id: product.id}) }}">
-                        <div class="panel panel-primary" style="height: 400px">
+                        <div class="panel panel-{% if promoPrice != product.price %}danger{% else %}info{% endif %}"
+                             style="height: 400px;">
                             <div class="panel-heading">
                                 <h4>{{ product.productcategory.name }} {{ product.title|slice(0,20) }}</h4></div>
                             <div class="panel-body" align="center" style="height:250px"><img
                                         src="/images/productimages/{{ product.image }}"
                                         class="img-responsive" style="height:100%" alt="Image"></div>
                             <div class="panel-footer" align="center" style="height: 87px;">
-                                {% set promoPrice = promoServ.calculatePromotedPrice(product) %}
                                 {% if promoPrice != product.price %}
                                     <del style="color: gray;"><h5>${{ product.price|number_format(2) }}</h5></del>
-                                    <h4>${{ promoPrice|number_format(2) }}</h4>
+                                    <h4 style="color: red;">${{ promoPrice|number_format(2) }}</h4>
                                 {% else %}
                                     <h4>${{ product.price|number_format(2) }}</h4>
                                 {% endif %}

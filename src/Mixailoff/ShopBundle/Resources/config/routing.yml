@@ -38,6 +38,18 @@ mix_s_admin_users_showall:
     path: /admin/users
     defaults: { _controller: MixSBundle:Admin/User:index }
 
+mix_s_admin_user_role_change:
+    path: /admin/users/changerole
+    defaults: { _controller: MixSBundle:Admin/User:roleChange }
+
+mix_s_admin_user_ban:
+    path: /admin/users/ban
+    defaults: { _controller: MixSBundle:Admin/User:banUser }
+
+mix_s_admin_user_setbalance:
+    path: /admin/users/setbalance
+    defaults: { _controller: MixSBundle:Admin/User:setBalance }
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
@@ -85,6 +97,18 @@ mix_s_inventory_display:
     path: /inventory
     defaults: { _controller: MixSBundle:Inventory:index }
 
+mix_s_inventory_sellback:
+    path: /inventory/sell
+    defaults: { _controller: MixSBundle:Inventory:sellBack }
+
 mix_s_products_filtered_display:
     path: /filtered
     defaults: { _controller: MixSBundle:Product:displayProductsByFilter }
+
+mix_s_review_new:
+    path:     /product/{id}/addreview
+    defaults: { _controller: MixSBundle:Review:newReviewProcess }
+
+mix_s_admin_review_delete:
+    path: /product/{id}/deletereview
+    defaults: { _controller: MixSBundle:Review:deleteReviewProcess }

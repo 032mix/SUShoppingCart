@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CartController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -20,9 +20,15 @@ class CartController extends Controller
         $items = $em
             ->getRepository('MixSBundle:CartProduct')
             ->findBy(['cart' => $cartId]);
+        $paginator = $this->get('knp_paginator');
+        $paginatedQuery = $paginator->paginate(
+            $items,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 10)
+        );
         $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:showcart.html.twig', array(
-            'items' => $items,
+            'items' => $paginatedQuery,
             'user' => $user,
             'promoServ' => $promoServ,
         ));

@@ -82,6 +82,11 @@ class Product
      */
     private $promotion;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Mixailoff\ShopBundle\Entity\Review", mappedBy="product")
+     */
+    private $review;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -279,5 +284,13 @@ class Product
     public function setImageForm($imageForm)
     {
         $this->imageForm = $imageForm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReview()
+    {
+        return $this->review;
     }
 }

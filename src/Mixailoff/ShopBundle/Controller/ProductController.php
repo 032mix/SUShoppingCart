@@ -10,12 +10,12 @@ class ProductController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $productsQuery = $em
+        $products = $em
             ->getRepository('MixSBundle:Product')
             ->getAllProducts();
         $paginator = $this->get('knp_paginator');
         $paginatedQuery = $paginator->paginate(
-            $productsQuery,
+            $products,
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 9)
         );
@@ -65,16 +65,26 @@ class ProductController extends Controller
             ));
     }
 
-    public function displayProductAction($id)
+    public function displayProductAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $product = $em
             ->getRepository('MixSBundle:Product')
-            ->find($id);
+            ->findOneBy(['id' => $id]);
+        $reviews = $em
+            ->getRepository('MixSBundle:Review')
+            ->findBy(['product' => $id],['id' => 'DESC']);
+        $paginator = $this->get('knp_paginator');
+        $paginatedQuery = $paginator->paginate(
+            $reviews,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 3)
+        );
         $promoServ = $this->get('app.promotion.service');
         return $this->render('MixSBundle:Default:displayproduct.html.twig',
             array('product' => $product,
-                'promoServ' => $promoServ
+                'promoServ' => $promoServ,
+                'reviews' => $paginatedQuery
             ));
     }
 }

@@ -8,14 +8,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductCategoryController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $productCategories = $em->getRepository('MixSBundle:ProductCategory')->findAll();
-
+        $paginator = $this->get('knp_paginator');
+        $paginatedQuery = $paginator->paginate(
+            $productCategories,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 8)
+        );
         return $this->render('MixSBundle:Admin/productcategory:index.html.twig', array(
-            'productCategories' => $productCategories,
+            'productCategories' => $paginatedQuery,
         ));
     }
 
@@ -28,7 +33,7 @@ class ProductCategoryController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($productCategory);
-            $em->flush($productCategory);
+            $em->flush();
 
             return $this->redirectToRoute('edit_productcategory_show', array('id' => $productCategory->getId()));
         }
@@ -76,7 +81,7 @@ class ProductCategoryController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($productCategory);
-            $em->flush($productCategory);
+            $em->flush();
         }
 
         return $this->redirectToRoute('edit_productcategory_index');

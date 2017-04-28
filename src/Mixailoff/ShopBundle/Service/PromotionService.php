@@ -14,7 +14,9 @@ class PromotionService
         $this->em = $em;
     }
 
-    protected $allPromotions;
+    private $allPromotions;
+
+    private $biggestPromoGlobal;
 
     /**
      * @param Product $product
@@ -31,6 +33,11 @@ class PromotionService
             $this->allPromotions = $promotionRepo->findAll();
         }
 
+        /* Same for the global promotion */
+        if ($this->biggestPromoGlobal === null) {
+            $this->biggestPromoGlobal = $promotionRepo->getBiggestActiveGlobalPromotion();
+        }
+
         $category = $product->getProductcategory();
         $categoryId = $category->getId();
         $productId = $product->getId();
@@ -41,16 +48,18 @@ class PromotionService
             $promotionProduct = $promotionToCheck->getProduct();
 
             if ($promotionCategory == $category) {
-                if ($promotion < $biggestPromoCategory = $promotionRepo->getBiggestActiveCategoryPromotion($categoryId)) {
+                $biggestPromoCategory = $promotionRepo->getBiggestActiveCategoryPromotion($categoryId);
+                if ($promotion < $biggestPromoCategory) {
                     $promotion = $biggestPromoCategory;
                 }
             } elseif ($promotionProduct == $product) {
-                if ($promotion < $biggestPromoProduct = $promotionRepo->getBiggestActiveProductPromotion($productId)) {
+                $biggestPromoProduct = $promotionRepo->getBiggestActiveProductPromotion($productId);
+                if ($promotion < $biggestPromoProduct) {
                     $promotion = $biggestPromoProduct;
                 }
-            } elseif (!$promotionCategory && !$promotionProduct) {
-                if ($promotion < $biggestPromoGlobal = $promotionRepo->getBiggestActiveGlobalPromotion()) {
-                    $promotion = $biggestPromoGlobal;
+            } else {
+                if ($promotion < $this->biggestPromoGlobal) {
+                    $promotion = $this->biggestPromoGlobal;
                 }
             }
         }

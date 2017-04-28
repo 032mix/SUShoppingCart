@@ -4,7 +4,7 @@
     <h1>Products list</h1>
     <div align="center">
         <div style="max-width: 1024px;">
-            <table class="table-bordered">
+            <table class="table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Id</th>
@@ -25,30 +25,48 @@
                         <td>{{ user.email }}</td>
                         <td align="center">{% if user.enabled == 1 %}
                                 <div style="color: green">active</div>
-                            {% elseif user.enabled == 0 %}
+                                <form action="{{ path('mix_s_admin_user_ban') }}" method="post">
+                                    <input type="hidden" title="user" name="user" value="{{ user.id }}">
+                                    <button class="btn btn-danger" type="submit">ban</button>
+                                </form>
+                            {% elseif user.enabled != 1 %}
                                 <div style="color: red">banned</div>
                             {% endif %}</td>
                         <td align="center">{{ user.lastLogin|date('d.m.y H:i') }}</td>
-                        <td align="center">{{ user.roles[0] }}</td>
-                        <td align="center">{{ user.currentBalance }}</td>
+                        <td align="center">{{ user.roles[0] }}<br>
+                            {% if user.roles[0] == 'ROLE_USER' %}
+                                <form action="{{ path('mix_s_admin_user_role_change') }}" method="post">
+                                    <input type="hidden" title="user" name="user" value="{{ user.id }}">
+                                    <button class="btn btn-warning" type="submit">make editor</button>
+                                </form>
+                            {% elseif user.roles[0] == 'ROLE_EDITOR' %}
+                                <form action="{{ path('mix_s_admin_user_role_change') }}" method="post">
+                                    <input type="hidden" title="user" name="user" value="{{ user.id }}">
+                                    <button class="btn btn-primary" type="submit">unmake editor</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                        <td align="center">$ {{ user.currentBalance }}<br>
+                            <form action="{{ path('mix_s_admin_user_setbalance') }}" method="post">
+                                <input type="hidden" title="user" name="user" value="{{ user.id }}">
+                                <input type="number" title="newBalance" name="newBalance">
+                                <button class="btn btn-success" type="submit">Set</button>
+                            </form>
+                        </td>
                         <td>
-                            <ul>
-                                <li>
-                                    <a href="">inventory</a>
-                                </li>
-                                <li>
-                                    {% if user.enabled == 1 %}
-                                        <a href="">ban</a>
-                                    {% elseif user.enabled == 0 %}
-                                        <a href="">unban</a>
-                                    {% endif %}
-                                </li>
-                            </ul>
+                            <a href="">
+                                <button class="btn btn-info" type="submit">inventory</button>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div align="center">
+        <div class="navigation">
+            {{ knp_pagination_render(users) }}
         </div>
     </div>
 {% endblock %}

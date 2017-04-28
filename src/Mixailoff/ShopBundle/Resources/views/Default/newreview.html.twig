@@ -1,0 +1,7 @@
+<h3>Leave a review</h3>
+<div style="width: 50%;">
+    {{ form_start(form, {'action': path('mix_s_review_new', {id: product.id})}) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-info" type="submit">Submit review</button>
+    {{ form_end(form) }}
+</div>

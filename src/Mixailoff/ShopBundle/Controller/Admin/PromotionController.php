@@ -8,14 +8,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PromotionController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $promotions = $em->getRepository('MixSBundle:Promotion')->findAll();
-
+        $paginator = $this->get('knp_paginator');
+        $paginatedQuery = $paginator->paginate(
+            $promotions,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 8)
+        );
         return $this->render('MixSBundle:Admin/promotion:index.html.twig', array(
-            'promotions' => $promotions,
+            'promotions' => $paginatedQuery,
         ));
     }
 

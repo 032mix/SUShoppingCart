@@ -36,4 +36,9 @@
 
         <h2><a href="{{ path('edit_productcategory_new') }}">Create a new Product Category</a></h2>
     </div>
+    <div align="center">
+        <div class="navigation">
+            {{ knp_pagination_render(productCategories) }}
+        </div>
+    </div>
 {% endblock %}

@@ -11,17 +11,18 @@
         </div>
         <br>
     {% endif %}
-    {% if items %}
+    {% if items.items %}
         <div align="center">
             <div style="max-width: 1024px;">
-                <table class="table-bordered">
+                <table class="table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Image</th>
                         <th>Title</th>
                         <th width="300px">Description</th>
                         <th>Quantity</th>
-                        <th width="80px">Actions</th>
+                        <th>Current price:</th>
+                        <th style="text-align: center">Sell back</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -29,17 +30,30 @@
                         <tr>
                             <td align="center"><img src="/images/productimages/{{ product.product.image }}"
                                                     style="height: 50px"></td>
-                            <td>{{ product.product.title }}</td>
+                            <td>
+                                <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
+                                    {{ product.product.title }}</a>
+                            </td>
                             <td>{{ product.product.description }}</td>
                             <td align="center">{{ product.quantity }}</td>
+                            <td>{% set promoPrice = promoServ.calculatePromotedPrice(product.product) %}
+                                {% if promoPrice != product.product.price %}
+                                    <del style="color: gray;"><h5>${{ product.product.price|number_format(2) }}</h5>
+                                    </del>
+                                    <h4>${{ promoPrice|number_format(2) }}</h4>
+                                {% else %}
+                                    <h4>${{ product.product.price|number_format(2) }}</h4>
+                                {% endif %}</td>
                             <td>
-                                <ul>
-                                    <li>
-                                        <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
-                                            show
-                                        </a>
-                                    </li>
-                                </ul>
+                                <form action="{{ path('mix_s_inventory_sellback') }}">
+                                    <input type="hidden" title="productId" name="productId"
+                                           value="{{ product.product.id }}">
+                                    <p>Quantity:</p>
+                                    <input type="number" title="quantityToSell" name="quantityToSell" style="width: 3em"
+                                           value="1">
+                                    <button class="btn btn-danger" type="submit"><span
+                                                class="glyphicon glyphicon-ok"></span></button>
+                                </form>
                             </td>
                         </tr>
                     {% endfor %}
@@ -51,6 +65,12 @@
         <br><br>
         <div align="center"><h3> Your Inventory is empty!</h3></div>
     {% endif %}
+    <br>
+    <div align="center">
+        <div class="navigation">
+            {{ knp_pagination_render(items) }}
+        </div>
+    </div>
     <br>
     <div align="center">
         <a href="{{ path('mix_s_cart_display') }}">

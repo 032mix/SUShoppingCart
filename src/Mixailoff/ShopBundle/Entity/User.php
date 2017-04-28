@@ -30,6 +30,11 @@ class User extends BaseUser
      */
     private $userinventory;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Mixailoff\ShopBundle\Entity\Review", mappedBy="user")
+     */
+    private $review;
+
     public function __construct()
     {
         parent::__construct();
@@ -44,7 +49,7 @@ class User extends BaseUser
     private $currentBalance = 1000;
 
     /**
-     * @return string
+     * @return integer
      */
     public function getCurrentBalance()
     {
@@ -52,7 +57,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $currentBalance
+     * @param integer $currentBalance
      */
     public function setCurrentBalance($currentBalance)
     {
@@ -97,5 +102,13 @@ class User extends BaseUser
     public function setUserinventory($userinventory)
     {
         $this->userinventory = $userinventory;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReview()
+    {
+        return $this->review;
     }
 }

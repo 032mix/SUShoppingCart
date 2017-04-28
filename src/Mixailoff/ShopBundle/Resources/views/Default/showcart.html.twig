@@ -13,10 +13,10 @@
         </div>
         <br>
     {% endif %}
-    {% if items %}
+    {% if items.items %}
         <div align="center">
             <div style="max-width: 1024px;">
-                <table class="table-bordered">
+                <table class="table-bordered table-hover">
                     <thead>
                     <tr>
                         <th>Image</th>
@@ -24,7 +24,7 @@
                         <th width="300px">Description</th>
                         <th width="100px">Price</th>
                         <th>Quantity</th>
-                        <th width="80px">Actions</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,16 +51,14 @@
                                 {% endif %}</td>
                             <td align="center">{{ product.quantity }}</td>
                             <td>
-                                <ul>
-                                    <li>
-                                        <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
-                                            show
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('mix_s_cart_removeproduct', {productId: product.id}) }}">remove</a>
-                                    </li>
-                                </ul>
+                                <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
+                                    <button class="btn btn-info"><span
+                                                class="glyphicon glyphicon-eye-open"></span></button>
+                                </a>
+                                <a href="{{ path('mix_s_cart_removeproduct', {productId: product.id}) }}">
+                                    <button class="btn btn-danger"><span
+                                                class="glyphicon glyphicon-trash"></span></button>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -76,10 +74,14 @@
             <br>
             <br>
             <a href="{{ path('mix_s_cart_checkout') }}">
-                <button type="button" class="btn btn-success btn-lg">Checkout</button>
+                <button type="button" class="btn btn-success btn-lg"><span
+                            class="glyphicon glyphicon-shopping-cart"></span> Checkout
+                </button>
             </a>
             <a href="{{ path('mix_s_cart_clear') }}">
-                <button type="button" class="btn btn-danger btn-lg">Clear Cart</button>
+                <button type="button" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-trash"></span>
+                    Clear Cart
+                </button>
             </a>
         </div>
     {% else %}
@@ -88,8 +90,16 @@
     {% endif %}
     <br>
     <div align="center">
+        <div class="navigation">
+            {{ knp_pagination_render(items) }}
+        </div>
+    </div>
+    <br>
+    <div align="center">
         <a href="{{ path('mix_s_inventory_display') }}">
-            <button type="button" class="btn btn-info btn-lg">Inventory</button>
+            <button type="button" class="btn btn-info btn-lg"><span
+                        class="glyphicon glyphicon-briefcase"></span> Inventory
+            </button>
         </a>
     </div>
 {% endblock %}

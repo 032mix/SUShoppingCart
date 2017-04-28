@@ -25,7 +25,15 @@
                         </td>
                         <td>{{ product.title }}</td>
                         <td>{{ product.description }}</td>
-                        <td align="center">${{ product.price }}</td>
+                        <td align="center">
+                            {% set promoPrice = promoServ.calculatePromotedPrice(product) %}
+                            {% if promoPrice != product.price %}
+                                <del style="color: gray;">${{ product.price|number_format(2) }}</del><br>
+                                ${{ promoPrice|number_format(2) }}
+                            {% else %}
+                                ${{ product.price|number_format(2) }}
+                            {% endif %}
+                        </td>
                         <td align="center">{{ product.quantity }}</td>
                         <td align="center">{{ product.isVisible }}</td>
                         <td>
@@ -44,6 +52,11 @@
             </table>
 
             <h2><a href="{{ path('edit_product_new') }}">Create a new product</a></h2>
+        </div>
+    </div>
+    <div align="center">
+        <div class="navigation">
+            {{ knp_pagination_render(products) }}
         </div>
     </div>
 {% endblock %}

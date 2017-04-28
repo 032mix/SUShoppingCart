@@ -46,7 +46,7 @@
                                     Quantity:
                                     <input type="number" value="1" title="quantity" name="quantity" min="1"
                                            max="{{ product.quantity }}" style="width: 3em">
-                                    <button class="add-to-cart btn btn-default" type="submit">add to cart</button>
+                                    <button class="add-to-cart btn btn-primary" type="submit">add to cart</button>
                                 </form>
                             {% else %}
                                 <a href="{{ path('fos_user_security_login') }}">
@@ -55,6 +55,43 @@
                                 </a>
                             {% endif %}
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div align="center">
+        <div class="well" align="center">
+            <button data-toggle="collapse" data-target="#leavereview" class="btn btn-info btn-lg"><span
+                        class="glyphicon glyphicon-pencil"></span> Leave a review
+            </button>
+            <div id="leavereview" class="collapse">
+                <br>
+                {{ render(controller('MixSBundle:Review:newReviewForm', {id: product.id})) }}
+            </div>
+        </div>
+        <div class="well" align="center">
+            <button data-toggle="collapse" data-target="#allreviews" class="btn btn-info btn-lg"><span
+                        class="glyphicon glyphicon-book"></span> All reviews
+            </button>
+            <div id="allreviews" class="collapse">
+                <br>
+                {% for review in reviews %}
+                    <h4>Title:</h4> <p>{{ review.title }}</p>
+                    <h4>Rating:</h4> <p>{{ review.rating }}/5</p>
+                    <h4>User:</h4><p>{{ review.user.username }}</p>
+                    <h4>Review:</h4><p>{{ review.review }}</p>
+                    {% if is_granted('ROLE_EDITOR') %}
+                        <form action="{{ path('mix_s_admin_review_delete', {id: product.id}) }}">
+                            <input type="hidden" name="deleteReview" title="deleteReview" value="{{ review.id }}">
+                            <button class="add-to-cart btn btn-default" type="submit">Delete Review</button>
+                        </form>
+                    {% endif %}
+                    <br>
+                {% endfor %}
+                <div align="center">
+                    <div class="navigation">
+                        {{ knp_pagination_render(reviews) }}
                     </div>
                 </div>
             </div>

@@ -40,4 +40,9 @@
             <h2><a href="{{ path('admin_promotion_new') }}">Create a new promotion</a></h2>
         </div>
     </div>
+    <div align="center">
+        <div class="navigation">
+            {{ knp_pagination_render(promotions) }}
+        </div>
+    </div>
 {% endblock %}
