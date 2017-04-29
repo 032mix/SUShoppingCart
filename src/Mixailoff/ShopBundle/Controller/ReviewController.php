@@ -5,6 +5,7 @@ namespace Mixailoff\ShopBundle\Controller;
 use Mixailoff\ShopBundle\Entity\Product;
 use Mixailoff\ShopBundle\Entity\Review;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 class ReviewController extends Controller
@@ -22,6 +23,9 @@ class ReviewController extends Controller
     public function newReviewProcessAction(Product $product, Request $request)
     {
         $user = $this->getUser();
+        if (!$user) {
+            throw new Exception('You are not logged in.');
+        }
         $review = new Review();
         $form = $this->createForm('Mixailoff\ShopBundle\Form\ReviewType', $review);
         $form->handleRequest($request);

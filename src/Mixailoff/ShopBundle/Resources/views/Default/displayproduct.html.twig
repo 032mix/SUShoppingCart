@@ -61,19 +61,27 @@
         </div>
     </div>
     <div align="center">
-        <div class="well" align="center">
-            <button data-toggle="collapse" data-target="#leavereview" class="btn btn-info btn-lg"><span
-                        class="glyphicon glyphicon-pencil"></span> Leave a review
-            </button>
-            <div id="leavereview" class="collapse">
-                <br>
-                {{ render(controller('MixSBundle:Review:newReviewForm', {id: product.id})) }}
+        {% if is_granted('ROLE_USER') %}
+            <div class="well" align="center">
+                <button data-toggle="collapse" data-target="#leavereview" class="btn btn-info btn-lg"><span
+                            class="glyphicon glyphicon-pencil"></span> Leave a review
+                </button>
+                <div id="leavereview" class="collapse">
+                    <br>
+                    {{ render(controller('MixSBundle:Review:newReviewForm', {id: product.id})) }}
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="well" align="center">
-            <button data-toggle="collapse" data-target="#allreviews" class="btn btn-info btn-lg"><span
-                        class="glyphicon glyphicon-book"></span> All reviews
-            </button>
+            {% if reviews.items %}
+                <button data-toggle="collapse" data-target="#allreviews" class="btn btn-info btn-lg"><span
+                            class="glyphicon glyphicon-book"></span> All reviews
+                </button>
+            {% else %}
+                <button data-toggle="collapse" data-target="#allreviews" class="btn btn-info btn-lg disabled"><span
+                            class="glyphicon glyphicon-book"></span> No reviews yet
+                </button>
+            {% endif %}
             <div id="allreviews" class="collapse">
                 <br>
                 {% for review in reviews %}
