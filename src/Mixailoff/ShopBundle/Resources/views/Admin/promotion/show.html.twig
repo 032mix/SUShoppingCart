@@ -25,18 +25,12 @@
             </tbody>
         </table>
 
-        <ul>
-            <li>
-                <a href="{{ path('admin_promotion_index') }}">Back to the list</a>
-            </li>
-            <li>
-                <a href="{{ path('admin_promotion_edit', { 'id': promotion.id }) }}">Edit</a>
-            </li>
-            <li>
-                {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-                {{ form_end(delete_form) }}
-            </li>
-        </ul>
+        <a href="{{ path('admin_promotion_index') }}">Back to the list</a><br>
+
+        <a href="{{ path('admin_promotion_edit', { 'id': promotion.id }) }}">Edit</a><br>
+
+        {{ form_start(delete_form) }}
+        <input type="submit" value="Delete">
+        {{ form_end(delete_form) }}
     </div>
 {% endblock %}

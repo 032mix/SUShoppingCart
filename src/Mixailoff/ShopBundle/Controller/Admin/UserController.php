@@ -11,7 +11,6 @@ class UserController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $users = $em->getRepository('MixSBundle:User')->findAll();
         $paginator = $this->get('knp_paginator');
         $paginatedQuery = $paginator->paginate(
@@ -70,5 +69,45 @@ class UserController extends Controller
         $userManager->updateUser($user);
 
         return $this->redirectToRoute('mix_s_admin_users_showall');
+    }
+
+    public function showUserInventoryAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userId = $request->get('user');
+        $user = $em->getRepository('MixSBundle:User')->findOneBy(['id' => $userId]);
+        $inventory = $em->getRepository('MixSBundle:UserInventory')->findOneBy(['user' => $user]);
+        $items = $em
+            ->getRepository('MixSBundle:UserInventoryProduct')
+            ->findBy(['inventory' => $inventory]);
+        $paginator = $this->get('knp_paginator');
+        $paginatedQuery = $paginator->paginate(
+            $items,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 10)
+        );
+
+        return $this->render('MixSBundle:Admin/user:userinventory.html.twig', array(
+            'items' => $paginatedQuery,
+            'user' => $user
+        ));
+    }
+
+    public function removeProductAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $productId = $request->get('productId');
+        $userId = $request->get('user');
+        $user = $em->getRepository('MixSBundle:User')->findOneBy(['id' => $userId]);
+        $inventory = $em->getRepository('MixSBundle:UserInventory')->findOneBy(['user' => $user]);
+        $product = $em->getRepository('MixSBundle:Product')->findOneBy(['id' => $productId]);
+        $inventoryProduct = $em
+            ->getRepository('MixSBundle:UserInventoryProduct')
+            ->findOneBy(['inventory' => $inventory, 'product' => $product]);
+
+        $em->remove($inventoryProduct);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('mix_s_admin_users_showall'));
     }
 }

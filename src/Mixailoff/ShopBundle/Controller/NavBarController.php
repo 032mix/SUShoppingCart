@@ -4,15 +4,15 @@ namespace Mixailoff\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class CategoryController extends Controller
+class NavBarController extends Controller
 {
-    public function displayCategoriesAction()
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
         $productCategories = $em
             ->getRepository('MixSBundle:ProductCategory')
             ->getAllProductCategories();
-        return $this->render('MixSBundle:Default:displayproductcategories.html.twig',
-            array('categories' => $productCategories));
+
+        return $this->render('navbar.html.twig', array('categories' => $productCategories));
     }
 }

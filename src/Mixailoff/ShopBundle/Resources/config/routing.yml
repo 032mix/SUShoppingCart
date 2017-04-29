@@ -6,6 +6,10 @@ mix_s_homepage:
     path: /home
     defaults: { _controller: MixSBundle:Product:index}
 
+mix_s_navbar:
+    path: /nav
+    defaults: { _controller: MixSBundle:NavBar:index }
+
 mix_s_category_display:
     path: /categories/{catId}
     defaults: { _controller: MixSBundle:Product:displayProductsByCategory}
@@ -49,6 +53,14 @@ mix_s_admin_user_ban:
 mix_s_admin_user_setbalance:
     path: /admin/users/setbalance
     defaults: { _controller: MixSBundle:Admin/User:setBalance }
+
+mix_s_admin_user_inventory:
+    path: /admin/userinventory
+    defaults: { _controller: MixSBundle:Admin/User:showUserInventory }
+
+mix_s_admin_user_inventory_removeproduct:
+    path: /admin/userinventory/removep
+    defaults: { _controller: MixSBundle:Admin/User:removeProduct }
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

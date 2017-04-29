@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Promotions list</h1>
     <div align="center">
+        <h1>Promotions list</h1>
+        <p>*If product and category are empty the promotion is global.</p>
         <div style="max-width: 1024px;">
             <table class="table-bordered">
                 <thead>
                 <tr>
                     <th>Id</th>
                     <th>Percent</th>
+                    <th style="width: 150px;">Product</th>
+                    <th style="width: 150px;">Category</th>
+                    <th style="width: 100px;">Global</th>
                     <th style="width: 150px;">Startdate</th>
                     <th style="width: 150px">Enddate</th>
                     <th>Actions</th>
@@ -19,7 +23,10 @@
                     <tr>
                         <td><a href="{{ path('admin_promotion_show', { 'id': promotion.id }) }}">{{ promotion.id }}</a>
                         </td>
-                        <td>{{ promotion.percent }}</td>
+                        <td align="center">{{ promotion.percent }}%</td>
+                        <td>{% if promotion.product %}{{ promotion.product.title }}{% endif %}</td>
+                        <td>{% if promotion.category %}{{ promotion.category.name }}{% endif %}</td>
+                        <td>{% if promotion.product or promotion.category %}No{% else %}Global{% endif %}</td>
                         <td>{% if promotion.startDate %}{{ promotion.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{% if promotion.endDate %}{{ promotion.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>

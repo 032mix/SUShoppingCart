@@ -11,7 +11,7 @@ class InventoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $inventory = $em->getRepository('MixSBundle:UserInventory')->findBy(['user' => $user]);
+        $inventory = $em->getRepository('MixSBundle:UserInventory')->findOneBy(['user' => $user]);
         $items = $em
             ->getRepository('MixSBundle:UserInventoryProduct')
             ->findBy(['inventory' => $inventory]);

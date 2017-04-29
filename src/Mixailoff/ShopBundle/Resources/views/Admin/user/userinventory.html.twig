@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+{% block title %}{{ user.username }}'s inventory{% endblock %}
+{% block body %}
+    <div align="center"><h3>{{ user.username }}'s inventory</h3></div>
+    <br>
+    {% if items.items %}
+        <div align="center">
+            <div style="max-width: 1024px;">
+                <table class="table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th width="300px">Description</th>
+                        <th>Quantity</th>
+                        <th style="text-align: center">Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in items %}
+                        <tr>
+                            <td align="center"><img src="/images/productimages/{{ product.product.image }}"
+                                                    style="height: 50px"></td>
+                            <td>
+                                <a href="{{ path('mix_s_product_display', {id: product.product.id}) }}">
+                                    {{ product.product.title }}</a>
+                            </td>
+                            <td>{{ product.product.description }}</td>
+                            <td align="center">{{ product.quantity }}</td>
+                            <td>
+                                <form action="{{ path('mix_s_admin_user_inventory_removeproduct') }}" method="post">
+                                    <input type="hidden" title="user" name="user" value="{{ user.id }}">
+                                    <input type="hidden" title="productId" name="productId"
+                                           value="{{ product.product.id }}">
+                                    <button class="btn btn-info" type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <br><br>
+        <div align="center"><h3> {{ user.username }}'s inventory is empty!</h3></div>
+    {% endif %}
+    <br>
+    <div align="center">
+        <div class="navigation">
+            {{ knp_pagination_render(items) }}
+        </div>
+    </div>
+    <br>
+    <div align="center">
+        <a href="{{ path('mix_s_admin_users_showall') }}">
+            <button type="button" class="btn btn-info btn-lg">Back to users list</button>
+        </a>
+    </div>
+{% endblock %}

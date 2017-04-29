@@ -21,13 +21,13 @@ class PromotionType extends AbstractType
             ))
             ->add('startDate')
             ->add('endDate')
-            ->add('category', EntityType::class, array(
-                'class' => 'Mixailoff\ShopBundle\Entity\ProductCategory',
-                'choice_label' => 'name',
-                'required' => false))
             ->add('product', EntityType::class, array(
                 'class' => 'Mixailoff\ShopBundle\Entity\Product',
                 'choice_label' => 'title',
+                'required' => false))
+            ->add('category', EntityType::class, array(
+                'class' => 'Mixailoff\ShopBundle\Entity\ProductCategory',
+                'choice_label' => 'name',
                 'required' => false));
     }
 

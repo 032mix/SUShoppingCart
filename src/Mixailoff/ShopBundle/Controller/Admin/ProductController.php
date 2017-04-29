@@ -70,12 +70,9 @@ class ProductController extends Controller
         $deleteForm = $this->createDeleteForm($product);
         $editForm = $this->createForm('Mixailoff\ShopBundle\Form\ProductType', $product);
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-
             /** @var UploadedFile $file $file */
             $file = $product->getImageForm();
-
             if ($file instanceof UploadedFile) {
                 $filename = md5($product->getTitle() . '' . $product
                         ->getCreatedAt()->format('Y-m-d H:i:s') . $file->getFileInfo()->getExtension());
@@ -87,7 +84,6 @@ class ProductController extends Controller
 
             return $this->redirectToRoute('edit_product_edit', array('id' => $product->getId()));
         }
-
         return $this->render('MixSBundle:Admin/product:edit.html.twig', array(
             'product' => $product,
             'edit_form' => $editForm->createView(),

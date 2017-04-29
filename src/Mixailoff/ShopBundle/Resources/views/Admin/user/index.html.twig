@@ -14,7 +14,7 @@
                     <th width="200px">Last Login</th>
                     <th>Role</th>
                     <th>Current Balance</th>
-                    <th width="80px">Actions</th>
+                    <th width="80px">Inventory</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,9 +54,10 @@
                             </form>
                         </td>
                         <td>
-                            <a href="">
-                                <button class="btn btn-info" type="submit">inventory</button>
-                            </a>
+                            <form action="{{ path('mix_s_admin_user_inventory') }}" method="post">
+                                <input type="hidden" title="user" name="user" value="{{ user.id }}">
+                                <button class="btn btn-info" type="submit">Inventory</button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}

@@ -2,6 +2,7 @@
 
 {% block body %}
     <div align="center">
+        <p>*If product and category are empty the promotion is global.</p>
         <div style="width: 300px;">
             <h1>Promotion edit</h1>
 
@@ -10,16 +11,11 @@
             <input type="submit" value="Edit"/>
             {{ form_end(edit_form) }}
 
-            <ul>
-                <li>
-                    <a href="{{ path('admin_promotion_index') }}">Back to the list</a>
-                </li>
-                <li>
+                    <br><a href="{{ path('admin_promotion_index') }}">Back to the list</a><br>
+
                     {{ form_start(delete_form) }}
                     <input type="submit" value="Delete">
                     {{ form_end(delete_form) }}
-                </li>
-            </ul>
         </div>
     </div>
 {% endblock %}
